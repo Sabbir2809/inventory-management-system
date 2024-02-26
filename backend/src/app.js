@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const hpp = require("hpp");
 const mongoSanitize = require("express-mongo-sanitize");
 const rateLimit = require("express-rate-limit");
+const cookieParser = require("cookie-parser");
 // import
 const notFound = require("./middlewares/notFound");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
@@ -17,6 +18,7 @@ const app = express();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cookieParser());
 app.use(helmet());
 app.use(hpp());
 app.use(mongoSanitize());
@@ -28,13 +30,13 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// application routes
-app.use("/api/v1", globalRouter);
-
 // Health API
 app.get("/", (req, res) => {
   res.status(200).send("API: Welcome To Inventory Management System");
 });
+
+// application routes
+app.use("/api/v1", globalRouter);
 
 // global error handling
 app.use(globalErrorHandler);

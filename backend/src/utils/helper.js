@@ -2,12 +2,12 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 const bcrypt = require("bcrypt");
 
-// create token
-const createToken = (jwtPayload, secret, options) => {
-  return jwt.sign(jwtPayload, secret, options);
+// create jwt token
+const createToken = (JwtPayload, secret, expiresIn) => {
+  return jwt.sign(JwtPayload, secret, { expiresIn });
 };
 
-// verify token
+// verify jwt token
 const verifyToken = (token, secret) => {
   return jwt.verify(token, secret);
 };

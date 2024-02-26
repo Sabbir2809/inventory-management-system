@@ -1,65 +1,79 @@
 const config = require("../config");
 const handleZodError = require("../errors/handleZodError");
-const AppError = "../errors/AppError";
-const handleCastError = "../errors/handleCastError";
-const handleDuplicateError = "../errors/handleDuplicateError";
-const handleValidationError = "../errors/handleValidationError";
+const AppError = require("../errors/AppError");
+const handleCastError = require("../errors/handleCastError");
+const handleDuplicateError = require("../errors/handleDuplicateError");
+const handleValidationError = require("../errors/handleValidationError");
+const AuthError = require("../errors/AuthError");
+const { ZodError } = require("zod");
 
 const globalErrorHandler = (error, req, res, next) => {
-  let statusCode = 500;
-  let message = "Something Went Wrong!";
+  // default object
+  const errorResponse = {
+    statusCode: error.statusCode || 500,
+    message: "Internal Server Error",
+    errorMessage: error.message,
+    errorDetails: error.errors,
+    stack: config.node_dev === "development" ? error?.stack : null,
+  };
 
-  let errorSources = [
-    {
-      path: "",
-      message: "Something Went Wrong!",
-    },
-  ];
-
-  if (error instanceof handleZodError) {
+  // ZodError
+  if (error instanceof ZodError) {
     const simplifiedError = handleZodError(error);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources;
-  } else if (error?.name === "ValidationError") {
+    errorResponse.statusCode = simplifiedError?.statusCode;
+    errorResponse.message = simplifiedError?.message;
+    errorResponse.errorMessage = simplifiedError?.errorMessage;
+    errorResponse.errorDetails = simplifiedError?.errorDetails;
+  }
+  // ValidationError
+  else if (error?.name === "ValidationError") {
     const simplifiedError = handleValidationError(error);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources;
-  } else if (error?.name === "CastError") {
+    errorResponse.statusCode = simplifiedError?.statusCode;
+    errorResponse.message = simplifiedError?.message;
+    errorResponse.errorDetails = simplifiedError?.errorDetails;
+  }
+  // CastError
+  else if (error?.name === "CastError") {
     const simplifiedError = handleCastError(error);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources;
-  } else if (error?.code === 11000) {
+    errorResponse.statusCode = simplifiedError?.statusCode;
+    errorResponse.message = simplifiedError?.errorMessage;
+    errorResponse.errorDetails = simplifiedError?.errorDetails;
+  }
+  // DuplicateError
+  else if (error?.code === 11000) {
     const simplifiedError = handleDuplicateError(error);
-    statusCode = simplifiedError?.statusCode;
-    message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources;
-  } else if (error instanceof AppError) {
-    statusCode = error?.statusCode;
-    message = error?.message;
-    errorSources = [
-      {
-        path: "",
-        message: error?.message,
-      },
-    ];
-  } else if (error instanceof Error) {
-    message = error?.message;
-    errorSources = [
+    errorResponse.statusCode = simplifiedError?.statusCode;
+    errorResponse.message = simplifiedError?.message;
+    errorResponse.errorMessage = simplifiedError?.errorMessage;
+    errorResponse.errorDetails = simplifiedError?.errorDetails;
+  }
+  // AppError
+  else if (error instanceof AppError) {
+    errorResponse.statusCode = error.statusCode;
+    errorResponse.message = error?.message;
+    errorResponse.errorDetails = [
       {
         path: "",
         message: error?.message,
       },
     ];
   }
+  // AuthError
+  else if (error instanceof AuthError) {
+    errorResponse.statusCode = error.statusCode;
+    errorResponse.message = "Unauthorized Access";
+    errorResponse.errorMessage = error?.message;
+    errorResponse.errorDetails = null;
+    errorResponse.stack = null;
+  }
 
-  return res.status(statusCode).json({
+  // response error
+  return res.status(errorResponse.statusCode).json({
     success: false,
-    message,
-    errorSources,
-    stack: config.NODE_DEV === "development" ? error?.stack : null,
+    message: errorResponse.message,
+    errorMessage: errorResponse.errorMessage,
+    errorDetails: errorResponse.errorDetails,
+    stack: errorResponse.stack,
   });
 };
 

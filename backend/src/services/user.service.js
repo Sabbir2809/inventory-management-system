@@ -1,8 +1,8 @@
 const config = require("../config");
 const AppError = require("../errors/AppError");
+const Otp = require("../models/opt.modal");
 const User = require("../models/user.modal");
-const OTP = require("../models/opt.modal");
-const { comparePassword, createToken, hashPassword } = require("../utils/helper");
+const { comparePassword, createToken, hashPassword, verifyToken } = require("../utils/helper");
 const { sendEmail } = require("../utils/sendEmail");
 
 // create user
@@ -43,18 +43,14 @@ const userLogin = async (payload) => {
 
   // create JWT token and sent to the client
   const jwtPayload = {
-    userId: user.id,
+    userId: user._id,
     role: user.role,
     email: user.email,
   };
   // access token
-  const accessToken = createToken(jwtPayload, config.jwt_access_secret, config.jwt_access_expires_in_secret);
+  const accessToken = createToken(jwtPayload, config.jwt_access_secret, config.jwt_access_expires_in);
   // refresh token
-  const refreshToken = createToken(
-    jwtPayload,
-    config.jwt_refresh_secret,
-    config.jwt_refresh_expires_in_secret
-  );
+  const refreshToken = createToken(jwtPayload, config.jwt_refresh_secret, config.jwt_refresh_expires_in);
 
   return {
     accessToken,
@@ -62,20 +58,49 @@ const userLogin = async (payload) => {
   };
 };
 
+const refreshToken = async (token) => {
+  // check if the token is valid
+  const decoded = verifyToken(token, config.jwt_refresh_secret);
+  const { userId } = decoded;
+
+  // checking if the user is exist
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new AppError(403, "Oops! Access denied. User profile not found.");
+  }
+
+  // Token Create payload
+  const jwtPayload = {
+    userId: user._id,
+    role: user.role,
+    email: user.email,
+  };
+
+  // access token
+  const accessToken = createToken(jwtPayload, config.jwt_access_secret, config.jwt_access_expires_in);
+
+  return { accessToken };
+};
+
 // user details
-const userDetailsFromDB = async (userEmail) => {
-  const result = await User.findOne({
-    email: userEmail,
-  });
+const userProfileDetailsFromDB = async (email) => {
+  const result = await User.findOne({ email }).select("-password");
+  if (!result) {
+    throw new AppError(404, "This User is Not Found!");
+  }
   return result;
 };
 
-// user update FromDB
-const userUpdateFromDB = async (email, payload) => {
-  const result = await User.findOneAndUpdate(email, payload, {
+// user update Into DB
+const userProfileUpdateIntoDB = async (email, payload) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new AppError(404, "This User is Not Found!");
+  }
+
+  const result = await User.findOneAndUpdate({ email }, payload, {
     new: true,
-    runValidators: true,
-  });
+  }).select("-password");
   return result;
 };
 
@@ -89,7 +114,7 @@ const verifyEmail = async (email) => {
     throw new AppError(404, "This User is Not Found!");
   }
   // create OTP
-  await OTP.create({ email, otp: OTP });
+  await Otp.create({ email, otp: OTP, status: 0 });
 
   // email format & send email with nodemailer
   const emailData = {
@@ -105,12 +130,12 @@ const verifyEmail = async (email) => {
 
 // Verify OTP
 const verifyOTP = async (email, otp) => {
-  const userOTP = await OTP.findOne({ email, otp, status: 0 });
+  const userOTP = await Otp.findOne({ email, otp, status: 0 });
   if (!userOTP) {
     throw new AppError(404, "OTP Code Already Used");
   }
 
-  await OTP.updateOne({ email, otp, status: 0 }, { email, otp, status: 1 }, { upsert: true });
+  await Otp.updateOne({ email, otp, status: 0 }, { email, otp, status: 1 }, { upsert: true });
   return null;
 };
 
@@ -118,7 +143,7 @@ const verifyOTP = async (email, otp) => {
 const resetPassword = async (payload) => {
   const { email, otp, newPassword } = payload;
 
-  const userOTP = await OTP.findOne({ email, otp, status: 1 });
+  const userOTP = await Otp.findOne({ email, otp, status: 1 });
   if (!userOTP) {
     throw new AppError(404, "Invalid Email or Password");
   }
@@ -129,11 +154,12 @@ const resetPassword = async (payload) => {
   return null;
 };
 
-module.export = {
+module.exports = {
   createUserIntoDB,
   userLogin,
-  userDetailsFromDB,
-  userUpdateFromDB,
+  refreshToken,
+  userProfileDetailsFromDB,
+  userProfileUpdateIntoDB,
   verifyEmail,
   verifyOTP,
   resetPassword,
