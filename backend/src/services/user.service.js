@@ -1,7 +1,7 @@
 const config = require("../config");
 const AppError = require("../errors/AppError");
-const Otp = require("../models/opt.modal");
-const User = require("../models/user.modal");
+const Otp = require("../models/opt.model");
+const User = require("../models/user.model");
 const { comparePassword, createToken, hashPassword, verifyToken } = require("../utils/helper");
 const { sendEmail } = require("../utils/sendEmail");
 
