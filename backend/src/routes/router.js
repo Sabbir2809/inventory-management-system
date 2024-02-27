@@ -4,6 +4,7 @@ const globalRouter = express.Router();
 
 const UserRoutes = require("./user.route");
 const BrandRoutes = require("./brand.route");
+const CategoryRoutes = require("./category.route");
 
 const routes = [
   {
@@ -13,6 +14,10 @@ const routes = [
   {
     path: "/brand",
     route: BrandRoutes,
+  },
+  {
+    path: "/category",
+    route: CategoryRoutes,
   },
 ];
 
