@@ -4,7 +4,6 @@ const AppError = require("../errors/AppError");
 const handleCastError = require("../errors/handleCastError");
 const handleDuplicateError = require("../errors/handleDuplicateError");
 const handleValidationError = require("../errors/handleValidationError");
-const AuthError = require("../errors/AuthError");
 const { ZodError } = require("zod");
 
 const globalErrorHandler = (error, req, res, next) => {
@@ -57,14 +56,6 @@ const globalErrorHandler = (error, req, res, next) => {
         message: error?.message,
       },
     ];
-  }
-  // AuthError
-  else if (error instanceof AuthError) {
-    errorResponse.statusCode = error.statusCode;
-    errorResponse.message = "Unauthorized Access";
-    errorResponse.errorMessage = error?.message;
-    errorResponse.errorDetails = null;
-    errorResponse.stack = null;
   }
 
   // response error
