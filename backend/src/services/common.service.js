@@ -1,21 +1,38 @@
-const create = async (req, Modal) => {
+const AppError = require("../errors/AppError");
+
+const create = async (req, Model) => {
   const { email } = req.user;
 
   const payload = req.body;
   payload.userEmail = email;
 
-  const result = await Modal.create(payload);
+  const result = await Model.create(payload);
   return result;
 };
 
-const dropDown = async (req, Modal, projection) => {
+const update = async (req, Model) => {
   const { email } = req.user;
 
-  const result = await Modal.aggregate([{ $match: { userEmail: email } }, { $project: projection }]);
+  const payload = req.body;
+  const id = req.params.id;
+
+  const data = await Model.findOne({ _id: id });
+  if (!data) {
+    throw new AppError(404, "Data Not Found!");
+  }
+
+  const result = await Model.updateOne({ _id: id, userEmail: email }, payload);
   return result;
 };
 
-const list = async (req, Modal, searchArray) => {
+const dropDown = async (req, Model, projection) => {
+  const { email } = req.user;
+
+  const result = await Model.aggregate([{ $match: { userEmail: email } }, { $project: projection }]);
+  return result;
+};
+
+const list = async (req, Model, searchArray) => {
   const { email } = req.user;
 
   const pageNumber = Number(req.params.pageNumber);
@@ -27,7 +44,7 @@ const list = async (req, Modal, searchArray) => {
   let result;
   if (searchKeyword !== "0") {
     const searchQuery = { $or: searchArray };
-    result = await Modal.aggregate([
+    result = await Model.aggregate([
       { $match: { userEmail: email } },
       { $match: searchQuery },
       {
@@ -38,7 +55,7 @@ const list = async (req, Modal, searchArray) => {
       },
     ]);
   } else {
-    result = await Modal.aggregate([
+    result = await Model.aggregate([
       { $match: { userEmail: email } },
       {
         $facet: {
@@ -51,19 +68,48 @@ const list = async (req, Modal, searchArray) => {
   return result;
 };
 
-const update = async (req, Modal) => {
+const listWithJoin = async (req, Model, searchArray, joinState) => {
   const { email } = req.user;
 
-  const payload = req.body;
-  const id = req.params.id;
+  const pageNumber = Number(req.params.pageNumber);
+  const perPage = Number(req.params.perPage);
+  const searchKeyword = req.params.searchKeyword;
 
-  const result = await Modal.updateOne({ _id: id, userEmail: email }, payload);
+  const skipRow = (pageNumber - 1) * perPage;
+
+  let result;
+  if (searchKeyword !== "0") {
+    const searchQuery = { $or: searchArray };
+    result = await Model.aggregate([
+      { $match: { userEmail: email } },
+      joinState,
+      { $match: searchQuery },
+      {
+        $facet: {
+          Total: [{ $count: "count" }],
+          Rows: [{ $skip: skipRow }, { $limit: perPage }],
+        },
+      },
+    ]);
+  } else {
+    result = await Model.aggregate([
+      { $match: { userEmail: email } },
+      joinState,
+      {
+        $facet: {
+          Total: [{ $count: "count" }],
+          Rows: [{ $skip: skipRow }, { $limit: perPage }],
+        },
+      },
+    ]);
+  }
   return result;
 };
 
 module.exports = {
   create,
+  update,
   dropDown,
   list,
-  update,
+  listWithJoin,
 };
