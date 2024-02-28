@@ -64,11 +64,11 @@ const expenseList = catchAsync(async (req, res) => {
     { note: searchRegex },
     { "ExpenseType.name": searchRegex },
   ];
-  const joinState = {
+  const joinStage = {
     $lookup: { from: "expensetypes", localField: "ExpenseTypeId", foreignField: "_id", as: "ExpenseType" },
   };
   // service
-  const result = await ExpenseServices.listWithOneJoin(req, ExpenseModel, searchArray, joinState);
+  const result = await ExpenseServices.list(req, ExpenseModel, searchArray, [joinStage]);
 
   // send response
   sendSuccessResponse(res, {

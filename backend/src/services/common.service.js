@@ -32,117 +32,31 @@ const dropDown = async (req, Model, projection) => {
   return result;
 };
 
-const list = async (req, Model, searchArray) => {
+const list = async (req, Model, searchArray, joinStages = []) => {
   const { email } = req.user;
 
-  const pageNumber = Number(req.params.pageNumber);
-  const perPage = Number(req.params.perPage);
-  const searchKeyword = req.params.searchKeyword;
+  const pageNumber = Number(req.params.pageNumber) || 1;
+  const perPage = Number(req.params.perPage) || 10;
+  const searchKeyword = req.params.searchKeyword || "0";
 
   const skipRow = (pageNumber - 1) * perPage;
 
-  let result;
+  // stage-1
+  const matchStage = { $match: { userEmail: email } };
+  // stage-2
+  const facetStage = {
+    Total: [{ $count: "count" }],
+    Rows: [{ $skip: skipRow }, { $limit: perPage }],
+  };
+
+  let pipeline = [matchStage, ...joinStages];
+
   if (searchKeyword !== "0") {
     const searchQuery = { $or: searchArray };
-    result = await Model.aggregate([
-      { $match: { userEmail: email } },
-      { $match: searchQuery },
-      {
-        $facet: {
-          Total: [{ $count: "count" }],
-          Rows: [{ $skip: skipRow }, { $limit: perPage }],
-        },
-      },
-    ]);
-  } else {
-    result = await Model.aggregate([
-      { $match: { userEmail: email } },
-      {
-        $facet: {
-          Total: [{ $count: "count" }],
-          Rows: [{ $skip: skipRow }, { $limit: perPage }],
-        },
-      },
-    ]);
+    pipeline = [...pipeline, { $match: searchQuery }];
   }
-  return result;
-};
 
-const listWithOneJoin = async (req, Model, searchArray, joinState) => {
-  const { email } = req.user;
-
-  const pageNumber = Number(req.params.pageNumber);
-  const perPage = Number(req.params.perPage);
-  const searchKeyword = req.params.searchKeyword;
-
-  const skipRow = (pageNumber - 1) * perPage;
-
-  let result;
-  if (searchKeyword !== "0") {
-    const searchQuery = { $or: searchArray };
-    result = await Model.aggregate([
-      { $match: { userEmail: email } },
-      joinState,
-      { $match: searchQuery },
-      {
-        $facet: {
-          Total: [{ $count: "count" }],
-          Rows: [{ $skip: skipRow }, { $limit: perPage }],
-        },
-      },
-    ]);
-  } else {
-    result = await Model.aggregate([
-      { $match: { userEmail: email } },
-      joinState,
-      {
-        $facet: {
-          Total: [{ $count: "count" }],
-          Rows: [{ $skip: skipRow }, { $limit: perPage }],
-        },
-      },
-    ]);
-  }
-  return result;
-};
-
-const listWithTwoJoin = async (req, Model, searchArray, joinState1, joinState2) => {
-  const { email } = req.user;
-
-  const pageNumber = Number(req.params.pageNumber);
-  const perPage = Number(req.params.perPage);
-  const searchKeyword = req.params.searchKeyword;
-
-  const skipRow = (pageNumber - 1) * perPage;
-
-  let result;
-  if (searchKeyword !== "0") {
-    const searchQuery = { $or: searchArray };
-    result = await Model.aggregate([
-      { $match: { userEmail: email } },
-      joinState1,
-      joinState2,
-      { $match: searchQuery },
-      {
-        $facet: {
-          Total: [{ $count: "count" }],
-          Rows: [{ $skip: skipRow }, { $limit: perPage }],
-        },
-      },
-    ]);
-  } else {
-    result = await Model.aggregate([
-      { $match: { userEmail: email } },
-      joinState1,
-      joinState2,
-      {
-        $facet: {
-          Total: [{ $count: "count" }],
-          Rows: [{ $skip: skipRow }, { $limit: perPage }],
-        },
-      },
-    ]);
-  }
+  const result = await Model.aggregate([...pipeline, { $facet: facetStage }]);
   return result;
 };
 
@@ -151,6 +65,4 @@ module.exports = {
   update,
   dropDown,
   list,
-  listWithOneJoin,
-  listWithTwoJoin,
 };

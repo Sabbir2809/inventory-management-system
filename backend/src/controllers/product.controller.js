@@ -38,20 +38,14 @@ const productList = catchAsync(async (req, res) => {
     { "Brand.name": searchRegex },
     { "Category.name": searchRegex },
   ];
-  const joinState1 = {
+  const joinStage1 = {
     $lookup: { from: "brands", localField: "BrandId", foreignField: "_id", as: "Brand" },
   };
-  const joinState2 = {
+  const joinStage2 = {
     $lookup: { from: "categories", localField: "CategoryId", foreignField: "_id", as: "Category" },
   };
   // service
-  const result = await ProductServices.listWithOneJoin(
-    req,
-    ProductModel,
-    searchArray,
-    joinState1,
-    joinState2
-  );
+  const result = await ProductServices.list(req, ProductModel, searchArray, [joinStage1, joinStage2]);
 
   // send response
   sendSuccessResponse(res, {
