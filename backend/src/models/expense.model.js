@@ -7,7 +7,7 @@ const expenseSchema = new mongoose.Schema(
     name: { type: String, required: true },
     userEmail: { type: String, required: true },
     amount: { type: Number, required: true },
-    note: { type: String, required: true },
+    note: { type: String },
     ExpenseTypeId: { type: mongoose.Schema.Types.ObjectId, ref: "ExpenseType" },
   },
   { timestamps: true, versionKey: false }

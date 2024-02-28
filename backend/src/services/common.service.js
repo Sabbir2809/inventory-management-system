@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const AppError = require("../errors/AppError");
 
 const create = async (req, Model) => {
@@ -60,9 +61,47 @@ const list = async (req, Model, searchArray, joinStages = []) => {
   return result;
 };
 
+const multipleCreate = async (req, ParentModel, ChildModel, joinPropertyName) => {
+  // create transaction session
+  const session = await mongoose.startSession();
+  try {
+    // begin transaction
+    await session.startTransaction();
+
+    // 1st database process
+    const { email } = req.user;
+    const parent = req.body["parent"];
+    parent.userEmail = email;
+    const parentCreation = await ParentModel.create([parent], { session });
+
+    // 2nd database process
+    const child = req.body["child"];
+    const PurchaseSummaryId = parentCreation[0]["_id"];
+    await child.forEach((element) => {
+      element[joinPropertyName] = PurchaseSummaryId;
+      element["userEmail"] = email;
+    });
+    const childCreation = await ChildModel.insertMany(child, { session });
+
+    // transaction success
+    await session.commitTransaction();
+    session.endSession();
+    return {
+      parent: parentCreation,
+      child: childCreation,
+    };
+  } catch (error) {
+    // roll back transaction if fail
+    await session.abortTransaction();
+    session.endSession();
+    throw new AppError(400, "Purchase Fail");
+  }
+};
+
 module.exports = {
   create,
   update,
   dropDown,
   list,
+  multipleCreate,
 };
