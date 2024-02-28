@@ -68,13 +68,13 @@ const expenseList = catchAsync(async (req, res) => {
     $lookup: { from: "expensetypes", localField: "ExpenseTypeId", foreignField: "_id", as: "ExpenseType" },
   };
   // service
-  const result = await ExpenseServices.listWithJoin(req, ExpenseModel, searchArray, joinState);
+  const result = await ExpenseServices.listWithOneJoin(req, ExpenseModel, searchArray, joinState);
 
   // send response
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Customer List Retrieved Successfully",
+    message: "Expense List Retrieved Successfully",
     data: result,
   });
 });

@@ -68,7 +68,7 @@ const list = async (req, Model, searchArray) => {
   return result;
 };
 
-const listWithJoin = async (req, Model, searchArray, joinState) => {
+const listWithOneJoin = async (req, Model, searchArray, joinState) => {
   const { email } = req.user;
 
   const pageNumber = Number(req.params.pageNumber);
@@ -106,10 +106,51 @@ const listWithJoin = async (req, Model, searchArray, joinState) => {
   return result;
 };
 
+const listWithTwoJoin = async (req, Model, searchArray, joinState1, joinState2) => {
+  const { email } = req.user;
+
+  const pageNumber = Number(req.params.pageNumber);
+  const perPage = Number(req.params.perPage);
+  const searchKeyword = req.params.searchKeyword;
+
+  const skipRow = (pageNumber - 1) * perPage;
+
+  let result;
+  if (searchKeyword !== "0") {
+    const searchQuery = { $or: searchArray };
+    result = await Model.aggregate([
+      { $match: { userEmail: email } },
+      joinState1,
+      joinState2,
+      { $match: searchQuery },
+      {
+        $facet: {
+          Total: [{ $count: "count" }],
+          Rows: [{ $skip: skipRow }, { $limit: perPage }],
+        },
+      },
+    ]);
+  } else {
+    result = await Model.aggregate([
+      { $match: { userEmail: email } },
+      joinState1,
+      joinState2,
+      {
+        $facet: {
+          Total: [{ $count: "count" }],
+          Rows: [{ $skip: skipRow }, { $limit: perPage }],
+        },
+      },
+    ]);
+  }
+  return result;
+};
+
 module.exports = {
   create,
   update,
   dropDown,
   list,
-  listWithJoin,
+  listWithOneJoin,
+  listWithTwoJoin,
 };
