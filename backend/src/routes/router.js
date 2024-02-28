@@ -8,6 +8,7 @@ const CategoryRoutes = require("./category.route");
 const CustomerRoutes = require("./customer.route");
 const SupplierRoutes = require("./supplier.route");
 const ExpenseRoutes = require("./expense.route");
+const ProductRoutes = require("./product.route");
 
 const routes = [
   {
@@ -33,6 +34,10 @@ const routes = [
   {
     path: "/expense",
     route: ExpenseRoutes,
+  },
+  {
+    path: "/product",
+    route: ProductRoutes,
   },
 ];
 

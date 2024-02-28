@@ -16,7 +16,7 @@ const update = async (req, Model) => {
   const payload = req.body;
   const id = req.params.id;
 
-  const data = await Model.findOne({ _id: id });
+  const data = await Model.findById(id);
   if (!data) {
     throw new AppError(404, "Data Not Found!");
   }
