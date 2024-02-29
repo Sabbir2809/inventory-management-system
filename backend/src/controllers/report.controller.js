@@ -13,7 +13,7 @@ const expenseReport = catchAsync(async (req, res) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Expense By Date Successfully",
+    message: "Expense Report Retrieved Successfully",
     data: result,
   });
 });
