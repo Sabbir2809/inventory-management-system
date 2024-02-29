@@ -79,6 +79,19 @@ const expenseList = catchAsync(async (req, res) => {
   });
 });
 
+const expenseDetails = catchAsync(async (req, res) => {
+  // service
+  const result = await ExpenseServices.details(req, ExpenseModel);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Expense Details Retrieved Successfully",
+    data: result,
+  });
+});
+
 const deleteExpense = catchAsync(async (req, res) => {
   // service
   const result = await ExpenseServices.remove(req, ExpenseModel);
@@ -98,5 +111,6 @@ module.exports = {
   createExpense,
   updateExpense,
   expenseList,
+  expenseDetails,
   deleteExpense,
 };

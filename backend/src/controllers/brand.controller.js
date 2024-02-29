@@ -47,6 +47,19 @@ const brandList = catchAsync(async (req, res) => {
   });
 });
 
+const brandDetails = catchAsync(async (req, res) => {
+  // service
+  const result = await BrandServices.details(req, BrandModel);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Brand Details Retrieved Successfully",
+    data: result,
+  });
+});
+
 const brandDropDown = catchAsync(async (req, res) => {
   const projection = { _id: 1, name: 1 };
   // service
@@ -85,6 +98,7 @@ module.exports = {
   createBrand,
   updateBrand,
   brandList,
+  brandDetails,
   brandDropDown,
   deleteBrand,
 };

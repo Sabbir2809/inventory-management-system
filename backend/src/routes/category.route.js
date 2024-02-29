@@ -8,10 +8,11 @@ categoryRoutes.post("/create", checkAuth(USER_ROLE.user), CategoryControllers.cr
 categoryRoutes.get(
   "/:pageNumber/:perPage/:searchKeyword",
   checkAuth(USER_ROLE.user),
-  CategoryControllers.brandList
+  CategoryControllers.categoryList
 );
+categoryRoutes.get("/details/:id", checkAuth(USER_ROLE.user), CategoryControllers.categoryDetails);
 categoryRoutes.put("/:id", checkAuth(USER_ROLE.user), CategoryControllers.updateCategory);
-categoryRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CategoryControllers.brandDropDown);
+categoryRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CategoryControllers.categoryDropDown);
 categoryRoutes.delete("/:id", checkAuth(USER_ROLE.user), CategoryControllers.deleteCategory);
 
 module.exports = categoryRoutes;

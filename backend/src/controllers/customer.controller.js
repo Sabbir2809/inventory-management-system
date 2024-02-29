@@ -32,7 +32,7 @@ const updateCustomer = catchAsync(async (req, res) => {
   });
 });
 
-const brandList = catchAsync(async (req, res) => {
+const customerList = catchAsync(async (req, res) => {
   const searchRegex = { $regex: req.params.searchKeyword, $options: "i" };
   const searchArray = [
     { name: searchRegex },
@@ -52,7 +52,20 @@ const brandList = catchAsync(async (req, res) => {
   });
 });
 
-const brandDropDown = catchAsync(async (req, res) => {
+const customerDetails = catchAsync(async (req, res) => {
+  // service
+  const result = await CustomerServices.details(req, CustomerModel);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Category Details Retrieved Successfully",
+    data: result,
+  });
+});
+
+const customerDropDown = catchAsync(async (req, res) => {
   const projection = { _id: 1, name: 1 };
   // service
   const result = await CustomerServices.dropDown(req, CustomerModel, projection);
@@ -61,7 +74,7 @@ const brandDropDown = catchAsync(async (req, res) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Customer Drop Down Retrieved Successfully",
+    message: "Customer Dropdown Retrieved Successfully",
     data: result,
   });
 });
@@ -89,7 +102,8 @@ const deleteCustomer = catchAsync(async (req, res) => {
 module.exports = {
   createCustomer,
   updateCustomer,
-  brandList,
-  brandDropDown,
+  customerList,
+  customerDetails,
+  customerDropDown,
   deleteCustomer,
 };

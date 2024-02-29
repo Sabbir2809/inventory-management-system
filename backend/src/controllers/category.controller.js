@@ -32,7 +32,7 @@ const updateCategory = catchAsync(async (req, res) => {
   });
 });
 
-const brandList = catchAsync(async (req, res) => {
+const categoryList = catchAsync(async (req, res) => {
   const searchRegex = { $regex: req.params.searchKeyword, $options: "i" };
   const searchArray = [{ name: searchRegex }];
   // service
@@ -47,7 +47,20 @@ const brandList = catchAsync(async (req, res) => {
   });
 });
 
-const brandDropDown = catchAsync(async (req, res) => {
+const categoryDetails = catchAsync(async (req, res) => {
+  // service
+  const result = await CategoryServices.details(req, CategoryModel);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Category Details Retrieved Successfully",
+    data: result,
+  });
+});
+
+const categoryDropDown = catchAsync(async (req, res) => {
   const projection = { _id: 1, name: 1 };
   // service
   const result = await CategoryServices.dropDown(req, CategoryModel, projection);
@@ -56,7 +69,7 @@ const brandDropDown = catchAsync(async (req, res) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Category Drop Down Retrieved Successfully",
+    message: "Category Dropdown Retrieved Successfully",
     data: result,
   });
 });
@@ -84,7 +97,8 @@ const deleteCategory = catchAsync(async (req, res) => {
 module.exports = {
   createCategory,
   updateCategory,
-  brandList,
-  brandDropDown,
+  categoryList,
+  categoryDetails,
+  categoryDropDown,
   deleteCategory,
 };

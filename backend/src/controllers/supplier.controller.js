@@ -32,7 +32,7 @@ const updateSupplier = catchAsync(async (req, res) => {
   });
 });
 
-const brandList = catchAsync(async (req, res) => {
+const supplierList = catchAsync(async (req, res) => {
   const searchRegex = { $regex: req.params.searchKeyword, $options: "i" };
   const searchArray = [
     { name: searchRegex },
@@ -52,7 +52,20 @@ const brandList = catchAsync(async (req, res) => {
   });
 });
 
-const brandDropDown = catchAsync(async (req, res) => {
+const supplierDetails = catchAsync(async (req, res) => {
+  // service
+  const result = await SupplierServices.details(req, SupplierModel);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Category Details Retrieved Successfully",
+    data: result,
+  });
+});
+
+const supplierDropDown = catchAsync(async (req, res) => {
   const projection = { _id: 1, name: 1 };
   // service
   const result = await SupplierServices.dropDown(req, SupplierModel, projection);
@@ -75,7 +88,7 @@ const deleteSupplier = catchAsync(async (req, res) => {
   if (isAssociated) {
     throw new AppError(400, "Associated with Purchase Summary Found");
   }
-  // Remove the brand
+  // Remove the supplier
   const result = await SupplierServices.remove(req, SupplierModel);
   // Send success response
   sendSuccessResponse(res, {
@@ -89,7 +102,8 @@ const deleteSupplier = catchAsync(async (req, res) => {
 module.exports = {
   createSupplier,
   updateSupplier,
-  brandList,
-  brandDropDown,
+  supplierList,
+  supplierDetails,
+  supplierDropDown,
   deleteSupplier,
 };

@@ -4,6 +4,10 @@
 
 Inventory management refers to the process of ordering, storing, using, and selling a company's inventory. This includes the management of raw materials, components, and finished products, as well as the warehousing and processing of such items.
 
+### Postman Documentation: https://documenter.getpostman.com/view/15226030/2sA2rGvKJy
+
+### API Live Link:
+
 ## Why do I build Inventory Management System?
 
 1. To learn industry-standard software development
@@ -34,11 +38,18 @@ Inventory management refers to the process of ordering, storing, using, and sell
 
 ## Features
 
-1. **User:**
-   - User Registration
-   - User Login
-   - Password Recover
-   - Profile Details View and Update
+1.  Users
+1.  Brands
+1.  Categories
+1.  Customers
+1.  Suppliers
+1.  Expenses
+1.  Products
+1.  Purchases
+1.  Sales
+1.  Returns
+1.  Dashboard Summary
+1.  Reports
 
 ## Technology
 

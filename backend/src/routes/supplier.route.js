@@ -8,10 +8,11 @@ supplierRoutes.post("/create", checkAuth(USER_ROLE.user), SupplierControllers.cr
 supplierRoutes.get(
   "/:pageNumber/:perPage/:searchKeyword",
   checkAuth(USER_ROLE.user),
-  SupplierControllers.brandList
+  SupplierControllers.supplierList
 );
+supplierRoutes.get("/details/:id", checkAuth(USER_ROLE.user), SupplierControllers.supplierDetails);
 supplierRoutes.put("/:id", checkAuth(USER_ROLE.user), SupplierControllers.updateSupplier);
-supplierRoutes.get("/dropdown", checkAuth(USER_ROLE.user), SupplierControllers.brandDropDown);
+supplierRoutes.get("/dropdown", checkAuth(USER_ROLE.user), SupplierControllers.supplierDropDown);
 supplierRoutes.delete("/:id", checkAuth(USER_ROLE.user), SupplierControllers.deleteSupplier);
 
 module.exports = supplierRoutes;

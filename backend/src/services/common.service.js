@@ -61,6 +61,20 @@ const list = async (req, Model, searchArray, joinStages = []) => {
   return result;
 };
 
+const details = async (req, Model) => {
+  // Define queries
+  const { email } = req.user;
+  const id = req.params.id;
+
+  const data = await Model.findById(id);
+  if (!data) {
+    throw new AppError(404, "Data Not Found!");
+  }
+
+  const result = await Model.findOne({ _id: id, userEmail: email });
+  return result;
+};
+
 const multipleCreate = async (req, ParentModel, ChildModel, joinPropertyName) => {
   // create transaction session
   let session;
@@ -166,6 +180,7 @@ module.exports = {
   update,
   dropDown,
   list,
+  details,
   multipleCreate,
   multipleDelete,
   remove,

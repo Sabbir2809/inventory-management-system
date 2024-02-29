@@ -8,10 +8,11 @@ customerRoutes.post("/create", checkAuth(USER_ROLE.user), CustomerControllers.cr
 customerRoutes.get(
   "/:pageNumber/:perPage/:searchKeyword",
   checkAuth(USER_ROLE.user),
-  CustomerControllers.brandList
+  CustomerControllers.customerList
 );
+customerRoutes.get("/details/:id", checkAuth(USER_ROLE.user), CustomerControllers.customerDetails);
 customerRoutes.put("/:id", checkAuth(USER_ROLE.user), CustomerControllers.updateCustomer);
-customerRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CustomerControllers.brandDropDown);
+customerRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CustomerControllers.customerDropDown);
 customerRoutes.delete("/:id", checkAuth(USER_ROLE.user), CustomerControllers.deleteCustomer);
 
 module.exports = customerRoutes;

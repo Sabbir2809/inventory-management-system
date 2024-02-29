@@ -61,6 +61,19 @@ const productList = catchAsync(async (req, res) => {
   });
 });
 
+const productDetails = catchAsync(async (req, res) => {
+  // service
+  const result = await ProductServices.details(req, ProductModel);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Category Details Retrieved Successfully",
+    data: result,
+  });
+});
+
 const deleteProduct = catchAsync(async (req, res) => {
   // Check if there are associated products
   const isReturnAssociated = await ProductServices.checkAssociate(
@@ -97,5 +110,6 @@ module.exports = {
   createProduct,
   updateProduct,
   productList,
+  productDetails,
   deleteProduct,
 };
