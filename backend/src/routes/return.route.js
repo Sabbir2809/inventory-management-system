@@ -11,5 +11,6 @@ returnRoutes.get(
   checkAuth(USER_ROLE.user),
   ReturnControllers.returnList
 );
+returnRoutes.delete("/:id", checkAuth(USER_ROLE.user), ReturnControllers.deleteReturn);
 
 module.exports = returnRoutes;

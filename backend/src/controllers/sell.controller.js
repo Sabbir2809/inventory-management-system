@@ -42,7 +42,21 @@ const sellList = catchAsync(async (req, res) => {
   });
 });
 
+const deleteSell = catchAsync(async (req, res) => {
+  // service
+  const result = await SellServices.multipleDelete(req, SellSummaryModel, SellModel, "SellSummaryId");
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Delete Sell Successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createSell,
   sellList,
+  deleteSell,
 };

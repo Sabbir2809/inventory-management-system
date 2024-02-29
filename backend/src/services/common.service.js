@@ -104,10 +104,52 @@ const multipleCreate = async (req, ParentModel, ChildModel, joinPropertyName) =>
   }
 };
 
+const multipleDelete = async (req, ParentModel, ChildModel, joinPropertyName) => {
+  // create transaction session
+  let session;
+  try {
+    // begin transaction
+    session = await mongoose.startSession();
+    await session.startTransaction();
+
+    // Define queries
+    const { email } = req.user;
+    const id = req.params.id;
+    const childQuery = { [joinPropertyName]: id, userEmail: email };
+    const parentQuery = { _id: id, userEmail: email };
+
+    // 1st database process
+    const childDelete = await ChildModel.deleteMany(childQuery).session(session);
+
+    // 2nd database process
+    const parentDelete = await ParentModel.deleteOne(parentQuery).session(session);
+
+    // transaction success
+    await session.commitTransaction();
+    session.endSession();
+    return {
+      parent: parentDelete,
+      child: childDelete,
+    };
+  } catch (error) {
+    // Rollback transaction and handle errors
+    if (session) {
+      await session.abortTransaction();
+    }
+    throw new Error(error);
+  } finally {
+    // End session
+    if (session) {
+      session.endSession();
+    }
+  }
+};
+
 module.exports = {
   create,
   update,
   dropDown,
   list,
   multipleCreate,
+  multipleDelete,
 };

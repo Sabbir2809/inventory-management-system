@@ -42,7 +42,21 @@ const returnList = catchAsync(async (req, res) => {
   });
 });
 
+const deleteReturn = catchAsync(async (req, res) => {
+  // service
+  const result = await ReturnServices.multipleDelete(req, ReturnSummaryModel, ReturnModel, "ReturnSummaryId");
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Delete Return Successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createReturn,
   returnList,
+  deleteReturn,
 };

@@ -47,7 +47,26 @@ const purchaseList = catchAsync(async (req, res) => {
   });
 });
 
+const deletePurchase = catchAsync(async (req, res) => {
+  // service
+  const result = await PurchaseServices.multipleDelete(
+    req,
+    PurchaseSummaryModel,
+    PurchaseModel,
+    "PurchaseSummaryId"
+  );
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Delete Purchase Successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createPurchase,
   purchaseList,
+  deletePurchase,
 };
