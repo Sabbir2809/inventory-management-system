@@ -13,5 +13,6 @@ expenseRoutes.get(
   checkAuth(USER_ROLE.user),
   ExpenseControllers.expenseList
 );
+expenseRoutes.delete("/:id", checkAuth(USER_ROLE.user), ExpenseControllers.deleteExpense);
 
 module.exports = expenseRoutes;

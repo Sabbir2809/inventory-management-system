@@ -12,5 +12,6 @@ categoryRoutes.get(
 );
 categoryRoutes.put("/:id", checkAuth(USER_ROLE.user), CategoryControllers.updateCategory);
 categoryRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CategoryControllers.brandDropDown);
+categoryRoutes.delete("/:id", checkAuth(USER_ROLE.user), CategoryControllers.deleteCategory);
 
 module.exports = categoryRoutes;

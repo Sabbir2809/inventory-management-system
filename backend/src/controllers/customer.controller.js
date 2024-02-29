@@ -2,6 +2,9 @@ const catchAsync = require("../utils/catchAsync");
 const sendSuccessResponse = require("../utils/sendSuccessResponse");
 const CustomerServices = require("../services/common.service");
 const CustomerModel = require("../models/customer.model");
+const AppError = require("../errors/AppError");
+const { Types } = require("mongoose");
+const SellSummary = require("../models/sellSummary.model");
 
 const createCustomer = catchAsync(async (req, res) => {
   // service
@@ -63,9 +66,30 @@ const brandDropDown = catchAsync(async (req, res) => {
   });
 });
 
+const deleteCustomer = catchAsync(async (req, res) => {
+  // Check if there are associated products
+  const isAssociated = await CustomerServices.checkAssociate(
+    { CustomerId: new Types.ObjectId(req.params.id) },
+    SellSummary
+  );
+  if (isAssociated) {
+    throw new AppError(400, "Associated with Sell Summary Found");
+  }
+  // Remove the brand
+  const result = await CustomerServices.remove(req, CustomerModel);
+  // Send success response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Customer deleted successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createCustomer,
   updateCustomer,
   brandList,
   brandDropDown,
+  deleteCustomer,
 };

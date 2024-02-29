@@ -2,6 +2,12 @@ const catchAsync = require("../utils/catchAsync");
 const sendSuccessResponse = require("../utils/sendSuccessResponse");
 const ProductServices = require("../services/common.service");
 const ProductModel = require("../models/product.model");
+const AppError = require("../errors/AppError");
+const { Types } = require("mongoose");
+const ReturnSummary = require("../models/returnSummary.model");
+const Return = require("../models/return.model");
+const Sell = require("../models/sell.model");
+const Purchase = require("../models/purchase.model");
 
 const createProduct = catchAsync(async (req, res) => {
   // service
@@ -56,8 +62,41 @@ const productList = catchAsync(async (req, res) => {
   });
 });
 
+const deleteProduct = catchAsync(async (req, res) => {
+  // Check if there are associated products
+  const isReturnAssociated = await ProductServices.checkAssociate(
+    { ProductId: new Types.ObjectId(req.params.id) },
+    Return
+  );
+  const isPurchaseAssociated = await ProductServices.checkAssociate(
+    { ProductId: new Types.ObjectId(req.params.id) },
+    Purchase
+  );
+  const isSellAssociated = await ProductServices.checkAssociate(
+    { ProductId: new Types.ObjectId(req.params.id) },
+    Sell
+  );
+  if (isReturnAssociated) {
+    throw new AppError(400, "Associated with Return Found");
+  } else if (isPurchaseAssociated) {
+    throw new AppError(400, "Associated with Purchase Found");
+  } else if (isSellAssociated) {
+    throw new AppError(400, "Associated with Sell Found");
+  }
+  // Remove the brand
+  const result = await ProductServices.remove(req, ProductModel);
+  // Send success response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Customer deleted successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createProduct,
   updateProduct,
   productList,
+  deleteProduct,
 };

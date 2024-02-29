@@ -2,6 +2,9 @@ const catchAsync = require("../utils/catchAsync");
 const sendSuccessResponse = require("../utils/sendSuccessResponse");
 const BrandServices = require("../services/common.service");
 const BrandModel = require("../models/brand.model");
+const Product = require("../models/product.model");
+const AppError = require("../errors/AppError");
+const { Types } = require("mongoose");
 
 const createBrand = catchAsync(async (req, res) => {
   // service
@@ -58,9 +61,30 @@ const brandDropDown = catchAsync(async (req, res) => {
   });
 });
 
+const deleteBrand = catchAsync(async (req, res) => {
+  // Check if there are associated products
+  const isAssociated = await BrandServices.checkAssociate(
+    { BrandId: new Types.ObjectId(req.params.id) },
+    Product
+  );
+  if (isAssociated) {
+    throw new AppError(400, "Associated with Product Found");
+  }
+  // Remove the brand
+  const result = await BrandServices.remove(req, BrandModel);
+  // Send success response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Brand deleted successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createBrand,
   updateBrand,
   brandList,
   brandDropDown,
+  deleteBrand,
 };

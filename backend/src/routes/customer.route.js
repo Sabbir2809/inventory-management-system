@@ -12,5 +12,6 @@ customerRoutes.get(
 );
 customerRoutes.put("/:id", checkAuth(USER_ROLE.user), CustomerControllers.updateCustomer);
 customerRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CustomerControllers.brandDropDown);
+customerRoutes.delete("/:id", checkAuth(USER_ROLE.user), CustomerControllers.deleteCustomer);
 
 module.exports = customerRoutes;

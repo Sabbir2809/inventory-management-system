@@ -2,6 +2,9 @@ const catchAsync = require("../utils/catchAsync");
 const sendSuccessResponse = require("../utils/sendSuccessResponse");
 const SupplierServices = require("../services/common.service");
 const SupplierModel = require("../models/supplier.model");
+const { Types } = require("mongoose");
+const AppError = require("../errors/AppError");
+const PurchaseSummary = require("../models/purchaseSummary.model");
 
 const createSupplier = catchAsync(async (req, res) => {
   // service
@@ -63,9 +66,30 @@ const brandDropDown = catchAsync(async (req, res) => {
   });
 });
 
+const deleteSupplier = catchAsync(async (req, res) => {
+  // Check if there are associated products
+  const isAssociated = await SupplierServices.checkAssociate(
+    { SupplierId: new Types.ObjectId(req.params.id) },
+    PurchaseSummary
+  );
+  if (isAssociated) {
+    throw new AppError(400, "Associated with Purchase Summary Found");
+  }
+  // Remove the brand
+  const result = await SupplierServices.remove(req, SupplierModel);
+  // Send success response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Purchase deleted successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createSupplier,
   updateSupplier,
   brandList,
   brandDropDown,
+  deleteSupplier,
 };

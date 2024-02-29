@@ -12,5 +12,6 @@ brandRoutes.get(
 );
 brandRoutes.put("/:id", checkAuth(USER_ROLE.user), BrandControllers.updateBrand);
 brandRoutes.get("/dropdown", checkAuth(USER_ROLE.user), BrandControllers.brandDropDown);
+brandRoutes.delete("/:id", checkAuth(USER_ROLE.user), BrandControllers.deleteBrand);
 
 module.exports = brandRoutes;

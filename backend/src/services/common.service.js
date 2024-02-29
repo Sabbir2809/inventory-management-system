@@ -145,6 +145,22 @@ const multipleDelete = async (req, ParentModel, ChildModel, joinPropertyName) =>
   }
 };
 
+const remove = async (req, Model) => {
+  // Define queries
+  const { email } = req.user;
+  const result = await Model.deleteMany({ _id: req.params.id, userEmail: email });
+
+  if (result.deletedCount === 0) {
+    throw new AppError(404, "Data Not Found!");
+  }
+  return result;
+};
+
+const checkAssociate = async (queryObj, Model) => {
+  const result = await Model.aggregate([{ $match: queryObj }]);
+  return result.length > 0;
+};
+
 module.exports = {
   create,
   update,
@@ -152,4 +168,6 @@ module.exports = {
   list,
   multipleCreate,
   multipleDelete,
+  remove,
+  checkAssociate,
 };

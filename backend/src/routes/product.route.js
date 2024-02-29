@@ -11,5 +11,6 @@ productRoutes.get(
   checkAuth(USER_ROLE.user),
   ProductControllers.productList
 );
+productRoutes.delete("/:id", checkAuth(USER_ROLE.user), ProductControllers.deleteProduct);
 
 module.exports = productRoutes;

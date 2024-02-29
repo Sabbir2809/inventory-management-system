@@ -79,10 +79,24 @@ const expenseList = catchAsync(async (req, res) => {
   });
 });
 
+const deleteExpense = catchAsync(async (req, res) => {
+  // service
+  const result = await ExpenseServices.remove(req, ExpenseModel);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Delete Expense Successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createExpenseType,
   updateExpenseType,
   createExpense,
   updateExpense,
   expenseList,
+  deleteExpense,
 };

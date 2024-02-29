@@ -12,5 +12,6 @@ supplierRoutes.get(
 );
 supplierRoutes.put("/:id", checkAuth(USER_ROLE.user), SupplierControllers.updateSupplier);
 supplierRoutes.get("/dropdown", checkAuth(USER_ROLE.user), SupplierControllers.brandDropDown);
+supplierRoutes.delete("/:id", checkAuth(USER_ROLE.user), SupplierControllers.deleteSupplier);
 
 module.exports = supplierRoutes;
