@@ -4,7 +4,6 @@ const ProductServices = require("../services/common.service");
 const ProductModel = require("../models/product.model");
 const AppError = require("../errors/AppError");
 const { Types } = require("mongoose");
-const ReturnSummary = require("../models/returnSummary.model");
 const Return = require("../models/return.model");
 const Sell = require("../models/sell.model");
 const Purchase = require("../models/purchase.model");
