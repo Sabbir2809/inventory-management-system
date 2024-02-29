@@ -15,5 +15,5 @@ const sellSummarySchema = new mongoose.Schema(
 );
 
 // model
-const SellSummary = mongoose.model("sellsummary", sellSummarySchema);
+const SellSummary = mongoose.model("sellsummaries", sellSummarySchema);
 module.exports = SellSummary;

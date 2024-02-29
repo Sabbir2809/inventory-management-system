@@ -63,24 +63,24 @@ const list = async (req, Model, searchArray, joinStages = []) => {
 
 const multipleCreate = async (req, ParentModel, ChildModel, joinPropertyName) => {
   // create transaction session
-  const session = await mongoose.startSession();
+  let session;
   try {
     // begin transaction
+    session = await mongoose.startSession();
     await session.startTransaction();
 
-    // 1st database process
     const { email } = req.user;
-    const parent = req.body["parent"];
+    const { parent, child } = req.body;
     parent.userEmail = email;
+
+    // 1st database process
     const parentCreation = await ParentModel.create([parent], { session });
 
-    // 2nd database process
-    const child = req.body["child"];
-    const PurchaseSummaryId = parentCreation[0]["_id"];
-    await child.forEach((element) => {
-      element[joinPropertyName] = PurchaseSummaryId;
+    for (const element of child) {
+      element[joinPropertyName] = parentCreation[0]["_id"];
       element["userEmail"] = email;
-    });
+    }
+    // 2nd database process
     const childCreation = await ChildModel.insertMany(child, { session });
 
     // transaction success
@@ -91,10 +91,16 @@ const multipleCreate = async (req, ParentModel, ChildModel, joinPropertyName) =>
       child: childCreation,
     };
   } catch (error) {
-    // roll back transaction if fail
-    await session.abortTransaction();
-    session.endSession();
-    throw new AppError(400, "Purchase Fail");
+    // Rollback transaction and handle errors
+    if (session) {
+      await session.abortTransaction();
+    }
+    throw new Error("Transaction failed. Please try again.");
+  } finally {
+    // End session
+    if (session) {
+      session.endSession();
+    }
   }
 };
 

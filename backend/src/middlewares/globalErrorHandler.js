@@ -3,14 +3,13 @@ const handleZodError = require("../errors/handleZodError");
 const AppError = require("../errors/AppError");
 const handleCastError = require("../errors/handleCastError");
 const handleDuplicateError = require("../errors/handleDuplicateError");
-const handleValidationError = require("../errors/handleValidationError");
 const { ZodError } = require("zod");
 
 const globalErrorHandler = (error, req, res, next) => {
   // default object
   const errorResponse = {
     statusCode: error.statusCode || 500,
-    message: "Internal Server Error",
+    message: error.message || "Internal Server Error",
     errorMessage: error?.message,
     errorDetails: error?.errors,
     stack: config.node_dev === "development" ? error?.stack : null,
@@ -22,13 +21,6 @@ const globalErrorHandler = (error, req, res, next) => {
     errorResponse.statusCode = simplifiedError?.statusCode;
     errorResponse.message = simplifiedError?.message;
     errorResponse.errorMessage = simplifiedError?.errorMessage;
-    errorResponse.errorDetails = simplifiedError?.errorDetails;
-  }
-  // ValidationError
-  else if (error.name === "ValidationError") {
-    const simplifiedError = handleValidationError(error);
-    errorResponse.statusCode = simplifiedError?.statusCode;
-    errorResponse.message = simplifiedError?.message;
     errorResponse.errorDetails = simplifiedError?.errorDetails;
   }
   // CastError
