@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const purchaseSummarySchema = new mongoose.Schema(
+const sellSummarySchema = new mongoose.Schema(
   {
     vatTax: { type: Number, required: true },
     discount: { type: Number },
@@ -9,11 +9,11 @@ const purchaseSummarySchema = new mongoose.Schema(
     grantTotal: { type: Number, required: true },
     note: { type: String },
     userEmail: { type: String, required: true },
-    SupplierId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Supplier" },
+    CustomerId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Customer" },
   },
   { timestamps: true, versionKey: false }
 );
 
 // model
-const PurchaseSummary = mongoose.model("purchasesummaries", purchaseSummarySchema);
-module.exports = PurchaseSummary;
+const SellSummary = mongoose.model("sellsummary", sellSummarySchema);
+module.exports = SellSummary;
