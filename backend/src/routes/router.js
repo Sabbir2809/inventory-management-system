@@ -11,6 +11,7 @@ const ExpenseRoutes = require("./expense.route");
 const ProductRoutes = require("./product.route");
 const PurchaseRoutes = require("./purchase.route");
 const SellRoutes = require("./sell.route");
+const ReturnRoutes = require("./return.route");
 
 const routes = [
   {
@@ -48,6 +49,10 @@ const routes = [
   {
     path: "/sell",
     route: SellRoutes,
+  },
+  {
+    path: "/return",
+    route: ReturnRoutes,
   },
 ];
 

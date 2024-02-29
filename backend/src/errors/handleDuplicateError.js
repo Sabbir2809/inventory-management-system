@@ -1,5 +1,4 @@
 const handleDuplicateError = (error) => {
-  console.log(error);
   const statusCode = 400;
 
   const match = error.message.match(/"([^"]*)"/);
