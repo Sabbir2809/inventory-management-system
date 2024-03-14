@@ -139,8 +139,8 @@ const verifyOTP = async (email, otp) => {
   return null;
 };
 
-// Reset Password
-const resetPassword = async (payload) => {
+// Forget Password
+const forgetPassword = async (payload) => {
   const { email, otp, newPassword } = payload;
 
   const userOTP = await Otp.findOne({ email, otp, status: 1 });
@@ -162,5 +162,5 @@ module.exports = {
   userProfileUpdateIntoDB,
   verifyEmail,
   verifyOTP,
-  resetPassword,
+  forgetPassword,
 };

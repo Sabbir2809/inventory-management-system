@@ -79,7 +79,7 @@ const userProfileUpdate = catchAsync(async (req, res) => {
 });
 
 const verifyEmail = catchAsync(async (req, res) => {
-  const email = req.params.email;
+  const { email } = req.body;
   // service
   const result = await UserServices.verifyEmail(email);
 
@@ -93,8 +93,7 @@ const verifyEmail = catchAsync(async (req, res) => {
 });
 
 const verifyOTP = catchAsync(async (req, res) => {
-  const email = req.params.email;
-  const otp = req.params.otp;
+  const { email, otp } = req.body;
   // service
   const result = await UserServices.verifyOTP(email, otp);
 
@@ -107,9 +106,9 @@ const verifyOTP = catchAsync(async (req, res) => {
   });
 });
 
-const resetPassword = catchAsync(async (req, res) => {
+const forgetPassword = catchAsync(async (req, res) => {
   // service
-  const result = await UserServices.resetPassword(req.body);
+  const result = await UserServices.forgetPassword(req.body);
 
   // send response
   sendSuccessResponse(res, {
@@ -128,5 +127,5 @@ module.exports = {
   userProfileUpdate,
   verifyEmail,
   verifyOTP,
-  resetPassword,
+  forgetPassword,
 };

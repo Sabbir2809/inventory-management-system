@@ -12,8 +12,8 @@ UserRoutes.post("/refresh-token", checkAuth(USER_ROLE.user), UserControllers.ref
 UserRoutes.get("/profile-details", checkAuth(USER_ROLE.user), UserControllers.userProfileDetails);
 UserRoutes.put("/profile-update", checkAuth(USER_ROLE.user), UserControllers.userProfileUpdate);
 // forget password
-UserRoutes.get("/verify-email/:email", UserControllers.verifyEmail);
-UserRoutes.get("/verify-otp/:email/:otp", UserControllers.verifyOTP);
-UserRoutes.post("/reset-password", UserControllers.resetPassword);
+UserRoutes.post("/verify-email", UserControllers.verifyEmail);
+UserRoutes.post("/verify-otp", UserControllers.verifyOTP);
+UserRoutes.post("/forget-password", UserControllers.forgetPassword);
 
 module.exports = UserRoutes;

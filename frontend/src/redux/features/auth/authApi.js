@@ -34,8 +34,39 @@ const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["profile"],
     }),
+
+    verifyEmail: builder.mutation({
+      query: (data) => ({
+        url: "/auth/verify-email",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    verifyOTP: builder.mutation({
+      query: (data) => ({
+        url: "/auth/verify-otp",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    forgetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/forget-password",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useSignupMutation, useProfileDetailsQuery, useProfileUpdateMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useProfileDetailsQuery,
+  useProfileUpdateMutation,
+  useVerifyEmailMutation,
+  useVerifyOTPMutation,
+  useForgetPasswordMutation,
+} = authApi;

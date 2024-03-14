@@ -50,6 +50,11 @@ const Login = () => {
               Don&apos;t have an account? Sign Up
             </Button>
           </Link>
+          <Link to="/verify-email">
+            <Button type="link" style={{ width: "100%", marginTop: "10px" }}>
+              Forget Password
+            </Button>
+          </Link>
         </IForm>
       </Col>
     </Row>
