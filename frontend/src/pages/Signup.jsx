@@ -19,13 +19,21 @@ const Signup = () => {
         mobile: data.mobile,
         password: data.password,
       };
+
+      console.log(userInfo);
+
+      if (!data.firstName || !data.lastName || !data.email || !data.mobile || !data.password) {
+        return toast.error("All Field(*) are Required");
+      }
+
       const res = await signup(userInfo).unwrap();
 
       if (res.success) {
+        toast.success("Registration Successful, Please Login");
         navigate("/login");
       }
     } catch (error) {
-      toast.error("Something Went Wrong");
+      toast.error(error.data.message);
     }
   };
 
@@ -35,15 +43,15 @@ const Signup = () => {
         <IForm onSubmit={onsubmit}>
           <Row gutter={8}>
             <Col span={12}>
-              <IInput type="text" name="firstName" label="First Name" />
+              <IInput type="text" name="firstName" label="First Name" required={true} />
             </Col>
             <Col span={12}>
-              <IInput type="text" name="lastName" label="Last Name" />
+              <IInput type="text" name="lastName" label="Last Name" required={true} />
             </Col>
           </Row>
-          <IInput type="text" name="email" label="Email" />
-          <IInput type="text" name="mobile" label="Mobile Number" />
-          <IInput type="password" name="password" label="Password" />
+          <IInput type="text" name="mobile" label="Mobile Number" required={true} addonBefore="+88" />
+          <IInput type="text" name="email" label="Email" required={true} />
+          <IInput type="password" name="password" label="Password" required={true} />
           <Button htmlType="submit" type="primary" size="large" style={{ width: "100%" }}>
             Sign Up
           </Button>
