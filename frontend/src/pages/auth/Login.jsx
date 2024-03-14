@@ -1,15 +1,14 @@
 import { Button, Col, Row } from "antd";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import IForm from "../components/form/IForm";
-import IInput from "../components/form/IInput";
-import { useLoginMutation } from "../redux/features/auth/authApi";
-import { setUser } from "../redux/features/auth/authSlice";
-import { verifyToken } from "../utils/verifyToken";
+import { Link } from "react-router-dom";
+import IForm from "../../components/form/IForm";
+import IInput from "../../components/form/IInput";
+import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { setUser } from "../../redux/features/auth/authSlice";
+import { verifyToken } from "../../utils/verifyToken";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [login] = useLoginMutation();
@@ -30,7 +29,7 @@ const Login = () => {
       dispatch(setUser({ user: user, token: res.data.accessToken }));
 
       if (res.success) {
-        navigate(`/dashboard`);
+        window.location.href = "/dashboard";
       }
     } catch (error) {
       toast.error(error.data.message);

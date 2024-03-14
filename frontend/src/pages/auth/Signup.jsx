@@ -1,9 +1,9 @@
 import { Button, Col, Row } from "antd";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import IForm from "../components/form/IForm";
-import IInput from "../components/form/IInput";
-import { useSignupMutation } from "../redux/features/auth/authApi";
+import IForm from "../../components/form/IForm";
+import IInput from "../../components/form/IInput";
+import { useSignupMutation } from "../../redux/features/auth/authApi";
 
 const Signup = () => {
   const navigate = useNavigate();

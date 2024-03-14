@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
-import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
-import Signup from "../pages/Signup";
+import Login from "../pages/auth/Login";
+import Signup from "../pages/auth/Signup";
 import { routeGenerator } from "../utils/routesGenerator";
 import { userPaths } from "./user.routes";
 

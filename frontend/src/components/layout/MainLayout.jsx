@@ -1,53 +1,17 @@
-import { LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button, Layout } from "antd";
-import { Header } from "antd/es/layout/layout";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
-import { logout } from "../../redux/features/auth/authSlice";
+import Heading from "./Heading";
 import Sidebar from "./Sidebar";
 const { Content } = Layout;
 
 const MainLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
-
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   return (
     <Layout style={{ height: "100%" }}>
       {/* sidebar component */}
-      <Sidebar collapsed={collapsed}></Sidebar>
+      <Sidebar></Sidebar>
       <Layout>
-        <Header
-          style={{
-            padding: 0,
-            position: "sticky",
-            top: 0,
-            zIndex: 1,
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: "white",
-          }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
-          />
-          {/* Logout Functionality */}
-          <Button type="text" danger icon={<LogoutOutlined />} onClick={handleLogout}>
-            Logout
-          </Button>
-        </Header>
+        {/* Header */}
+        <Heading></Heading>
         {/* content */}
         <Content>
           <div

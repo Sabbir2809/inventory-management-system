@@ -12,9 +12,10 @@ const userRole = {
   ADMIN: "admin",
 };
 
-const Sidebar = ({ collapsed }) => {
+const Sidebar = () => {
   const [sidebarItems, setSidebarItems] = useState([]);
   const token = useSelector(selectCurrentToken);
+  const collapsed = useSelector((state) => state.auth.collapsed);
 
   useEffect(() => {
     let user;
