@@ -21,7 +21,7 @@ const Heading = () => {
 
   const items = [
     {
-      label: "Profile Details",
+      label: "Profile",
       key: "profile-details",
       icon: <UserOutlined />,
     },

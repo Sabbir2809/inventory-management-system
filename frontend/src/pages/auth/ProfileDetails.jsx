@@ -1,6 +1,7 @@
 import { MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Card, Col, Divider, List, Row, Skeleton, Typography } from "antd";
+import { Avatar, Card, Col, List, Row, Skeleton, Typography } from "antd";
 import { useProfileDetailsQuery } from "../../redux/features/auth/authApi";
+import ProfileUpdate from "./ProfileUpdate";
 
 const { Text, Title } = Typography;
 
@@ -26,6 +27,7 @@ const ProfileDetails = () => {
           <Card type="inner" title="Avatar" style={{ textAlign: "center" }}>
             <Avatar size={100} src={profile?.photo} />
           </Card>
+          <ProfileUpdate profile={profile} key={Date.now()}></ProfileUpdate>
         </Col>
         <Col xs={24} sm={12} md={16} lg={18}>
           <List
@@ -43,7 +45,6 @@ const ProfileDetails = () => {
           />
         </Col>
       </Row>
-      <Divider />
     </Card>
   );
 };
