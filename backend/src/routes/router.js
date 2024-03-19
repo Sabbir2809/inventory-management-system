@@ -15,7 +15,7 @@ const ReturnRoutes = require("./return.route");
 const ReportRoutes = require("./report.route");
 const SummaryRoutes = require("./summary.route");
 
-const routes = [
+const moduleRoutes = [
   {
     path: "/auth",
     route: UserRoutes,
@@ -66,7 +66,7 @@ const routes = [
   },
 ];
 
-routes.forEach((route) => {
+moduleRoutes.forEach((route) => {
   globalRouter.use(route.path, route.route);
 });
 

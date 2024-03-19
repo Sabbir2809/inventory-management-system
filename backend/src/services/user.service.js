@@ -100,6 +100,7 @@ const userProfileUpdateIntoDB = async (email, payload) => {
 
   const result = await User.findOneAndUpdate({ email }, payload, {
     new: true,
+    runValidators: true,
   }).select("-password");
   return result;
 };

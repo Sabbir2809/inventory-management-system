@@ -10,7 +10,7 @@ UserRoutes.post("/login", UserControllers.userLogin);
 UserRoutes.post("/refresh-token", checkAuth(USER_ROLE.user), UserControllers.refreshToken);
 // user profile
 UserRoutes.get("/profile-details", checkAuth(USER_ROLE.user), UserControllers.userProfileDetails);
-UserRoutes.put("/profile-update", checkAuth(USER_ROLE.user), UserControllers.userProfileUpdate);
+UserRoutes.patch("/profile-update", checkAuth(USER_ROLE.user), UserControllers.userProfileUpdate);
 // forget password
 UserRoutes.post("/verify-email", UserControllers.verifyEmail);
 UserRoutes.post("/verify-otp", UserControllers.verifyOTP);

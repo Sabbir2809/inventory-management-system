@@ -6,22 +6,25 @@ const hpp = require("hpp");
 const mongoSanitize = require("express-mongo-sanitize");
 const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
-// import
+
+// Import Middleware and Routes
 const notFound = require("./middlewares/notFound");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
 const globalRouter = require("./routes/router");
 
-// express app instance
+// Express App Instance
 const app = express();
 
 // Security Middleware
+app.use(helmet());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
-app.use(helmet());
 app.use(hpp());
 app.use(mongoSanitize());
+
+// Rate Limiting Middleware
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 60,
@@ -32,16 +35,16 @@ app.use(limiter);
 
 // Health API
 app.get("/", (req, res) => {
-  res.status(200).send("API: Welcome To Inventory Management System");
+  res.send("API: Welcome To Inventory Management System");
 });
 
-// application routes
+// Application Routes
 app.use("/api/v1", globalRouter);
 
-// global error handling
+// global error
 app.use(globalErrorHandler);
-// catch all routes
+// notFound
 app.use(notFound);
 
-// Exports
+// Export the Express App
 module.exports = app;

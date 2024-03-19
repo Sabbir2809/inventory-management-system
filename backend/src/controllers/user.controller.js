@@ -73,7 +73,7 @@ const userProfileUpdate = catchAsync(async (req, res) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "User Details Retrieved successfully",
+    message: "User Profile Updated successfully",
     data: result,
   });
 });
