@@ -11,7 +11,7 @@ brandRoutes.get(
   BrandControllers.brandList
 );
 brandRoutes.get("/details/:id", checkAuth(USER_ROLE.user), BrandControllers.brandDetails);
-brandRoutes.put("/:id", checkAuth(USER_ROLE.user), BrandControllers.updateBrand);
+brandRoutes.patch("/:id", checkAuth(USER_ROLE.user), BrandControllers.updateBrand);
 brandRoutes.get("/dropdown", checkAuth(USER_ROLE.user), BrandControllers.brandDropDown);
 brandRoutes.delete("/:id", checkAuth(USER_ROLE.user), BrandControllers.deleteBrand);
 

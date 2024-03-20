@@ -46,6 +46,7 @@ const productList = catchAsync(async (req, res) => {
   const joinStage1 = {
     $lookup: { from: "brands", localField: "BrandId", foreignField: "_id", as: "Brand" },
   };
+
   const joinStage2 = {
     $lookup: { from: "categories", localField: "CategoryId", foreignField: "_id", as: "Category" },
   };
@@ -57,7 +58,8 @@ const productList = catchAsync(async (req, res) => {
     statusCode: 200,
     success: true,
     message: "Product List Retrieved Successfully",
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 

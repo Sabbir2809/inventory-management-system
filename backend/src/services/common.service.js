@@ -46,8 +46,7 @@ const list = async (req, Model, searchArray, joinStages = []) => {
   const matchStage = { $match: { userEmail: email } };
   // stage-2
   const facetStage = {
-    Total: [{ $count: "count" }],
-    Rows: [{ $skip: skipRow }, { $limit: perPage }],
+    rows: [{ $skip: skipRow }, { $limit: perPage }],
   };
 
   let pipeline = [matchStage, ...joinStages];
@@ -58,7 +57,16 @@ const list = async (req, Model, searchArray, joinStages = []) => {
   }
 
   const result = await Model.aggregate([...pipeline, { $facet: facetStage }]);
-  return result;
+  const total = await Model.count();
+
+  return {
+    meta: {
+      page: pageNumber,
+      limit: perPage,
+      total: total,
+    },
+    data: result[0]?.rows,
+  };
 };
 
 const details = async (req, Model) => {

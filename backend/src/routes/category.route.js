@@ -11,7 +11,7 @@ categoryRoutes.get(
   CategoryControllers.categoryList
 );
 categoryRoutes.get("/details/:id", checkAuth(USER_ROLE.user), CategoryControllers.categoryDetails);
-categoryRoutes.put("/:id", checkAuth(USER_ROLE.user), CategoryControllers.updateCategory);
+categoryRoutes.patch("/:id", checkAuth(USER_ROLE.user), CategoryControllers.updateCategory);
 categoryRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CategoryControllers.categoryDropDown);
 categoryRoutes.delete("/:id", checkAuth(USER_ROLE.user), CategoryControllers.deleteCategory);
 
