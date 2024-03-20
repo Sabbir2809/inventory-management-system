@@ -1,16 +1,12 @@
 const handleZodError = (error) => {
   const statusCode = 400;
+  const errorMessage = error.errors.map((item) => `${item.path}, ${item.message}`).toString();
 
-  const errorSources = error.issues.map((issue) => {
-    return {
-      path: issue?.path[issue.path.length - 1],
-      message: issue.message,
-    };
-  });
   return {
     statusCode,
     message: "Validation Error",
-    errorSources,
+    errorMessage,
+    errorDetails: error,
   };
 };
 

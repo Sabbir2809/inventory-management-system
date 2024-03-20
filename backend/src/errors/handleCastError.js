@@ -1,17 +1,12 @@
 const handleCastError = (error) => {
   const statusCode = 400;
-
-  const errorSources = [
-    {
-      path: error.path,
-      message: error.message,
-    },
-  ];
+  const errorMessage = error.value;
 
   return {
     statusCode,
-    message: "Invalid Id",
-    errorSources,
+    message: "Invalid ID",
+    errorMessage: `${errorMessage}  is not a valid ID!`,
+    errorDetails: error,
   };
 };
 module.exports = handleCastError;

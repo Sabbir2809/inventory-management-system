@@ -22,11 +22,12 @@ const CreateCustomer = () => {
       }
 
       const res = await createCustomer(data);
-      if (res.data.success) {
+      if (res?.data?.success) {
         navigate("/customers");
       }
+      console.log(res);
     } catch (error) {
-      toast.error(error.data.message);
+      toast.error(error?.data?.message);
     }
   };
   return (

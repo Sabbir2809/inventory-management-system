@@ -1,17 +1,17 @@
-const config = require("../config");
 const handleZodError = require("../errors/handleZodError");
 const AppError = require("../errors/AppError");
 const handleCastError = require("../errors/handleCastError");
 const handleDuplicateError = require("../errors/handleDuplicateError");
 const { ZodError } = require("zod");
+const config = require("../config");
 
 const globalErrorHandler = (error, req, res, next) => {
   // default object
   const errorResponse = {
     statusCode: error.statusCode || 500,
     message: error.message || "Internal Server Error",
-    errorMessage: error?.message,
-    errorDetails: error?.errors,
+    errorMessage: error.message,
+    errorDetails: error.errors,
     stack: config.node_dev === "development" ? error?.stack : null,
   };
 
@@ -20,23 +20,24 @@ const globalErrorHandler = (error, req, res, next) => {
     const simplifiedError = handleZodError(error);
     errorResponse.statusCode = simplifiedError?.statusCode;
     errorResponse.message = simplifiedError?.message;
-    errorResponse.errorMessage = simplifiedError?.errorMessage;
-    errorResponse.errorDetails = simplifiedError?.errorDetails;
+    errorResponse.errorMessage = simplifiedError.errorMessage;
+    errorResponse.errorDetails = simplifiedError.errorDetails;
   }
   // CastError
   else if (error.name === "CastError") {
     const simplifiedError = handleCastError(error);
     errorResponse.statusCode = simplifiedError?.statusCode;
-    errorResponse.message = simplifiedError?.errorMessage;
-    errorResponse.errorDetails = simplifiedError?.errorDetails;
+    errorResponse.message = simplifiedError?.message;
+    errorResponse.errorMessage = simplifiedError.errorMessage;
+    errorResponse.errorDetails = simplifiedError.errorDetails;
   }
   // DuplicateError
   else if (error.code === 11000) {
     const simplifiedError = handleDuplicateError(error);
     errorResponse.statusCode = simplifiedError?.statusCode;
     errorResponse.message = simplifiedError?.message;
-    errorResponse.errorMessage = simplifiedError?.errorMessage;
-    errorResponse.errorDetails = simplifiedError?.errorDetails;
+    errorResponse.errorMessage = simplifiedError.errorMessage;
+    errorResponse.errorDetails = simplifiedError.errorDetails;
   }
   // AppError
   else if (error instanceof AppError) {

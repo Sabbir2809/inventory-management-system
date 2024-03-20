@@ -49,7 +49,7 @@ const CreateExpense = () => {
             <IInput type="text" name="amount" label="amount" required={true} />
             <IInput type="text" name="note" label="note" required={true} />
             <ISelect
-              name="expenseTypeId"
+              name="ExpenseTypeId"
               label="Expense Type"
               placeholder="Select Expense Type"
               required={true}

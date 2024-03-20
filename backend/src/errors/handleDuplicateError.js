@@ -1,20 +1,13 @@
 const handleDuplicateError = (error) => {
-  const statusCode = 400;
-
+  const statusCode = 409;
   const match = error.message.match(/"([^"]*)"/);
   const extractedMessage = match && match[1];
 
-  const errorSources = [
-    {
-      path: "",
-      message: `${extractedMessage} is already exits`,
-    },
-  ];
-
   return {
     statusCode,
-    message: "Invalid Id",
-    errorSources,
+    message: "Duplicate Error",
+    errorMessage: `Duplicate value for ${extractedMessage}`,
+    errorDetails: error,
   };
 };
 

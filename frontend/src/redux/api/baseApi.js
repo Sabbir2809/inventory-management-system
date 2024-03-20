@@ -18,8 +18,12 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
+  if (result?.error?.data?.success === false) {
+    toast.error(result.error.data.errorMessage);
+  }
+
   if (result?.error?.status === 404) {
-    toast.error(result.error.data.message);
+    toast.error(result.error.data.errorMessage);
   }
 
   if (result?.error?.status === 401) {
@@ -51,6 +55,6 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["profile", "brand", "category", "product", "customer"],
+  tagTypes: ["profile", "brand", "category", "product", "customer", "expense"],
   endpoints: () => ({}),
 });

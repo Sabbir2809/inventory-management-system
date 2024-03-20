@@ -32,12 +32,7 @@ const updateExpenseType = catchAsync(async (req, res) => {
 
 const expenseTypeList = catchAsync(async (req, res) => {
   const searchRegex = { $regex: req.params.searchKeyword, $options: "i" };
-  const searchArray = [
-    { name: searchRegex },
-    { amount: searchRegex },
-    { note: searchRegex },
-    { ExpenseType: searchRegex },
-  ];
+  const searchArray = [{ name: searchRegex }, { amount: searchRegex }, { note: searchRegex }];
 
   // service
   const result = await ExpenseServices.list(req, ExpenseTypeModel, searchArray);
