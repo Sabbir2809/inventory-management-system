@@ -83,7 +83,7 @@ const ProductList = () => {
 
   return (
     <>
-      <Typography.Title level={2}>Product List</Typography.Title>
+      <Typography.Title level={3}>Product List</Typography.Title>
       <Input.Search
         placeholder="Search here"
         style={{ marginBottom: 8 }}

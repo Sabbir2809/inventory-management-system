@@ -30,6 +30,28 @@ const updateExpenseType = catchAsync(async (req, res) => {
   });
 });
 
+const expenseTypeList = catchAsync(async (req, res) => {
+  const searchRegex = { $regex: req.params.searchKeyword, $options: "i" };
+  const searchArray = [
+    { name: searchRegex },
+    { amount: searchRegex },
+    { note: searchRegex },
+    { ExpenseType: searchRegex },
+  ];
+
+  // service
+  const result = await ExpenseServices.list(req, ExpenseTypeModel, searchArray);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Expense Type List Retrieved Successfully",
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
 const createExpense = catchAsync(async (req, res) => {
   // service
   const result = await ExpenseServices.create(req, ExpenseModel);
@@ -111,6 +133,7 @@ module.exports = {
   updateExpenseType,
   createExpense,
   updateExpense,
+  expenseTypeList,
   expenseList,
   expenseDetails,
   deleteExpense,

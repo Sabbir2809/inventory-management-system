@@ -11,7 +11,7 @@ customerRoutes.get(
   CustomerControllers.customerList
 );
 customerRoutes.get("/details/:id", checkAuth(USER_ROLE.user), CustomerControllers.customerDetails);
-customerRoutes.put("/:id", checkAuth(USER_ROLE.user), CustomerControllers.updateCustomer);
+customerRoutes.patch("/:id", checkAuth(USER_ROLE.user), CustomerControllers.updateCustomer);
 customerRoutes.get("/dropdown", checkAuth(USER_ROLE.user), CustomerControllers.customerDropDown);
 customerRoutes.delete("/:id", checkAuth(USER_ROLE.user), CustomerControllers.deleteCustomer);
 

@@ -71,7 +71,7 @@ const productDetails = catchAsync(async (req, res) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Category Details Retrieved Successfully",
+    message: "Product Details Retrieved Successfully",
     data: result,
   });
 });
@@ -103,7 +103,7 @@ const deleteProduct = catchAsync(async (req, res) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Customer deleted successfully",
+    message: "Product deleted successfully",
     data: result,
   });
 });

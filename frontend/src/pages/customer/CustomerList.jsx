@@ -1,24 +1,27 @@
 import { Input, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useBrandListQuery } from "../../../redux/features/product/brandApi";
-import UpdateBrand from "./UpdateBrand";
+import { useCustomerListQuery } from "../../redux/features/customer/customerApi";
+import UpdateCustomer from "./UpdateCustomer";
 
-const BrandList = () => {
+const CustomerList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
 
-  const { data: brands, isFetching } = useBrandListQuery({
+  const { data: customers, isFetching } = useCustomerListQuery({
     pageNumber,
     perPage,
     searchKeyword,
   });
 
-  const metaData = brands?.meta;
-  const tableData = brands?.data?.map(({ _id, name, createdAt }, index) => ({
+  const metaData = customers?.meta;
+  const tableData = customers?.data?.map(({ _id, name, email, mobile, address, createdAt }, index) => ({
     key: _id,
     name,
+    email,
+    mobile,
+    address,
     createdAt: moment(createdAt).format("LLL"),
     serial: index + 1,
   }));
@@ -35,6 +38,21 @@ const BrandList = () => {
       dataIndex: "name",
     },
     {
+      title: "Email",
+      key: "email",
+      dataIndex: "email",
+    },
+    {
+      title: "Mobile",
+      key: "mobile",
+      dataIndex: "mobile",
+    },
+    {
+      title: "Address",
+      key: "address",
+      dataIndex: "address",
+    },
+    {
       title: "Created Date",
       key: "createdAt",
       dataIndex: "createdAt",
@@ -43,10 +61,10 @@ const BrandList = () => {
       title: "Action",
       key: "x",
       align: "Center",
-      render: (brand) => {
+      render: (customer) => {
         return (
           <Space>
-            <UpdateBrand brandInfo={brand} key={Date.now()} />
+            <UpdateCustomer customerInfo={customer} key={Date.now()} />
           </Space>
         );
       },
@@ -55,7 +73,7 @@ const BrandList = () => {
 
   return (
     <>
-      <Typography.Title level={3}>Brand List</Typography.Title>
+      <Typography.Title level={3}>Customer List</Typography.Title>
       <Input.Search
         placeholder="Search here"
         style={{ marginBottom: 8 }}
@@ -82,4 +100,4 @@ const BrandList = () => {
   );
 };
 
-export default BrandList;
+export default CustomerList;

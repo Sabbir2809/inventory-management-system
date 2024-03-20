@@ -55,7 +55,7 @@ const CategoryList = () => {
 
   return (
     <>
-      <Typography.Title level={2}>Category List</Typography.Title>
+      <Typography.Title level={3}>Category List</Typography.Title>
       <Input.Search
         placeholder="Search here"
         style={{ marginBottom: 8 }}

@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, Typography } from "antd";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import IForm from "../../components/form/IForm";
@@ -48,32 +48,35 @@ const CreateProduct = () => {
     }
   };
   return (
-    <Row justify="center">
-      <Col span={24} lg={12}>
-        <IForm onSubmit={onsubmit}>
-          <ISelect
-            name="BrandId"
-            label="Brand Name"
-            placeholder="Select Product Brand Name"
-            required={true}
-            options={brandOptions}
-          />
-          <ISelect
-            name="CategoryId"
-            label="Category Name"
-            placeholder="Select Product Category Name"
-            options={categoryOptions}
-            required={true}
-          />
-          <IInput type="text" name="name" label="Product Name" required={true} />
-          <IInput type="text" name="unit" label="Product Unit" required={true} />
-          <IInput type="text" name="details" label="Product Details" required={true} />
-          <Button htmlType="submit" type="primary" size="large">
-            Create Product
-          </Button>
-        </IForm>
-      </Col>
-    </Row>
+    <>
+      <Typography.Title level={3}>Create Product</Typography.Title>
+      <Row justify="center">
+        <Col span={24} lg={12}>
+          <IForm onSubmit={onsubmit}>
+            <ISelect
+              name="BrandId"
+              label="Brand Name"
+              placeholder="Select Product Brand Name"
+              required={true}
+              options={brandOptions}
+            />
+            <ISelect
+              name="CategoryId"
+              label="Category Name"
+              placeholder="Select Product Category Name"
+              options={categoryOptions}
+              required={true}
+            />
+            <IInput type="text" name="name" label="Product Name" required={true} />
+            <IInput type="text" name="unit" label="Product Unit" required={true} />
+            <IInput type="text" name="details" label="Product Details" required={true} />
+            <Button htmlType="submit" type="primary" size="large">
+              Create Product
+            </Button>
+          </IForm>
+        </Col>
+      </Row>
+    </>
   );
 };
 export default CreateProduct;

@@ -1,24 +1,27 @@
 import { Input, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useBrandListQuery } from "../../../redux/features/product/brandApi";
-import UpdateBrand from "./UpdateBrand";
+import { useExpenseListQuery } from "../../redux/features/expense/expenseApi";
+import UpdateExpense from "./UpdateExpense";
 
-const BrandList = () => {
+const ExpenseList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
 
-  const { data: brands, isFetching } = useBrandListQuery({
+  const { data: expenses, isFetching } = useExpenseListQuery({
     pageNumber,
     perPage,
     searchKeyword,
   });
 
-  const metaData = brands?.meta;
-  const tableData = brands?.data?.map(({ _id, name, createdAt }, index) => ({
+  const metaData = expenses?.meta;
+  const tableData = expenses?.data?.map(({ _id, name, amount, note, ExpenseType, createdAt }, index) => ({
     key: _id,
     name,
+    expenseType: ExpenseType[0]?.name,
+    amount,
+    note,
     createdAt: moment(createdAt).format("LLL"),
     serial: index + 1,
   }));
@@ -35,6 +38,21 @@ const BrandList = () => {
       dataIndex: "name",
     },
     {
+      title: "Expense Type",
+      key: "expenseType",
+      dataIndex: "expenseType",
+    },
+    {
+      title: "Amount",
+      key: "amount",
+      dataIndex: "amount",
+    },
+    {
+      title: "Note",
+      key: "note",
+      dataIndex: "note",
+    },
+    {
       title: "Created Date",
       key: "createdAt",
       dataIndex: "createdAt",
@@ -43,10 +61,10 @@ const BrandList = () => {
       title: "Action",
       key: "x",
       align: "Center",
-      render: (brand) => {
+      render: (expense) => {
         return (
           <Space>
-            <UpdateBrand brandInfo={brand} key={Date.now()} />
+            <UpdateExpense expenseInfo={expense} key={Date.now()} />
           </Space>
         );
       },
@@ -55,7 +73,7 @@ const BrandList = () => {
 
   return (
     <>
-      <Typography.Title level={3}>Brand List</Typography.Title>
+      <Typography.Title level={3}>Expense List</Typography.Title>
       <Input.Search
         placeholder="Search here"
         style={{ marginBottom: 8 }}
@@ -82,4 +100,4 @@ const BrandList = () => {
   );
 };
 
-export default BrandList;
+export default ExpenseList;

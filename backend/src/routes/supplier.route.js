@@ -11,7 +11,7 @@ supplierRoutes.get(
   SupplierControllers.supplierList
 );
 supplierRoutes.get("/details/:id", checkAuth(USER_ROLE.user), SupplierControllers.supplierDetails);
-supplierRoutes.put("/:id", checkAuth(USER_ROLE.user), SupplierControllers.updateSupplier);
+supplierRoutes.patch("/:id", checkAuth(USER_ROLE.user), SupplierControllers.updateSupplier);
 supplierRoutes.get("/dropdown", checkAuth(USER_ROLE.user), SupplierControllers.supplierDropDown);
 supplierRoutes.delete("/:id", checkAuth(USER_ROLE.user), SupplierControllers.deleteSupplier);
 

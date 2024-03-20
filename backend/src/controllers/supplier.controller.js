@@ -61,7 +61,7 @@ const supplierDetails = catchAsync(async (req, res) => {
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Category Details Retrieved Successfully",
+    message: "Supplier Details Retrieved Successfully",
     data: result,
   });
 });

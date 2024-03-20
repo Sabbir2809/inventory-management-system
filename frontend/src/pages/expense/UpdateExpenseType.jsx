@@ -3,12 +3,12 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import IForm from "../../components/form/IForm";
 import IInput from "../../components/form/IInput";
-import { useUpdateProductMutation } from "../../redux/features/product/productApi";
+import { useUpdateExpenseTypeMutation } from "../../redux/features/expense/expenseApi";
 
-const UpdateProduct = ({ productInfo }) => {
+const UpdateExpenseType = ({ expenseTypeInfo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [updateProduct] = useUpdateProductMutation();
+  const [updateExpenseType] = useUpdateExpenseTypeMutation();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -18,16 +18,16 @@ const UpdateProduct = ({ productInfo }) => {
   };
 
   const onSubmit = async (data) => {
-    const brandData = {
-      id: productInfo.key,
+    const expenseTypeData = {
+      id: expenseTypeInfo.key,
       data: {
         ...data,
       },
     };
 
-    const res = await updateProduct(brandData);
+    const res = await updateExpenseType(expenseTypeData);
     if (res.data.success) {
-      toast.success("Product Information Updated Successfully");
+      toast.success("ExpenseType Information Updated Successfully");
       setIsModalOpen(false);
     }
   };
@@ -40,15 +40,11 @@ const UpdateProduct = ({ productInfo }) => {
         style={{ width: "100%", marginBottom: "4px", marginTop: "4px" }}>
         Update
       </Button>
-      <Modal title={productInfo?.name} open={isModalOpen} onCancel={handleCancel} footer={null}>
+      <Modal title={expenseTypeInfo?.name} open={isModalOpen} onCancel={handleCancel} footer={null}>
         <Row justify="center">
           <Col span={24}>
-            <IForm onSubmit={onSubmit} defaultValues={productInfo}>
-              <IInput type="text" name="name" label="Name" required={true} />
-              <IInput type="text" name="unit" label="Unit" required={true} />
-              <IInput type="text" name="details" label="Details" required={true} />
-              <IInput type="text" name="brand" label="Brand" disabled={true} />
-              <IInput type="text" name="category" label="Category" disabled={true} />
+            <IForm onSubmit={onSubmit} defaultValues={expenseTypeInfo}>
+              <IInput type="text" name="name" label="Expense Type" required={true} />
               <Button htmlType="submit" type="primary">
                 Save
               </Button>
@@ -60,4 +56,4 @@ const UpdateProduct = ({ productInfo }) => {
   );
 };
 
-export default UpdateProduct;
+export default UpdateExpenseType;

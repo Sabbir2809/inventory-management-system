@@ -5,9 +5,14 @@ const checkAuth = require("../middlewares/checkAuth");
 const { USER_ROLE } = require("../constants/user.constants");
 
 expenseRoutes.post("/create", checkAuth(USER_ROLE.user), ExpenseControllers.createExpense);
-expenseRoutes.put("/:id", checkAuth(USER_ROLE.user), ExpenseControllers.updateExpense);
+expenseRoutes.patch("/:id", checkAuth(USER_ROLE.user), ExpenseControllers.updateExpense);
 expenseRoutes.post("/create-type", checkAuth(USER_ROLE.user), ExpenseControllers.createExpenseType);
-expenseRoutes.put("/type/:id", checkAuth(USER_ROLE.user), ExpenseControllers.updateExpenseType);
+expenseRoutes.get(
+  "/type/:pageNumber/:perPage/:searchKeyword",
+  checkAuth(USER_ROLE.user),
+  ExpenseControllers.expenseTypeList
+);
+expenseRoutes.patch("/type/:id", checkAuth(USER_ROLE.user), ExpenseControllers.updateExpenseType);
 expenseRoutes.get(
   "/:pageNumber/:perPage/:searchKeyword",
   checkAuth(USER_ROLE.user),

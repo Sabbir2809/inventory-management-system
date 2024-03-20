@@ -20,8 +20,6 @@ const Signup = () => {
         password: data.password,
       };
 
-      console.log(userInfo);
-
       if (!data.firstName || !data.lastName || !data.email || !data.mobile || !data.password) {
         return toast.error("All Field(*) are Required");
       }
