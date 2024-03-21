@@ -31,19 +31,16 @@ const updateExpenseType = catchAsync(async (req, res) => {
 });
 
 const expenseTypeList = catchAsync(async (req, res) => {
-  const searchRegex = { $regex: req.params.searchKeyword, $options: "i" };
-  const searchArray = [{ name: searchRegex }, { amount: searchRegex }, { note: searchRegex }];
-
+  const projection = { _id: 1, name: 1 };
   // service
-  const result = await ExpenseServices.list(req, ExpenseTypeModel, searchArray);
+  const result = await ExpenseServices.dropDown(req, ExpenseTypeModel, projection);
 
   // send response
   sendSuccessResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Expense Type List Retrieved Successfully",
-    meta: result.meta,
-    data: result.data,
+    message: "Expense Dropdown Retrieved Successfully",
+    data: result,
   });
 });
 

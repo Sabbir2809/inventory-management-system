@@ -6,22 +6,21 @@ const { Content } = Layout;
 
 const MainLayout = () => {
   return (
-    <Layout style={{ height: "100%" }}>
+    <Layout>
       {/* sidebar component */}
       <Sidebar></Sidebar>
       <Layout>
         {/* Header */}
         <Heading></Heading>
         {/* content */}
-        <Content>
-          <div
-            style={{
-              margin: "24px 16px 0px",
-              minHeight: 360,
-            }}>
-            {/* outlet */}
-            <Outlet></Outlet>
-          </div>
+        <Content
+          style={{
+            margin: "10px 20px",
+            padding: 10,
+            height: "100vh",
+          }}>
+          {/* outlet */}
+          <Outlet></Outlet>
         </Content>
       </Layout>
     </Layout>

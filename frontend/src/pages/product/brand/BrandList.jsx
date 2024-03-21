@@ -1,13 +1,16 @@
-import { Input, Space, Table, Typography } from "antd";
+import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useBrandListQuery } from "../../../redux/features/product/brandApi";
+import toast from "react-hot-toast";
+import { useBrandListQuery, useDeleteBrandMutation } from "../../../redux/features/product/brandApi";
 import UpdateBrand from "./UpdateBrand";
 
 const BrandList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
+
+  const [deleteBrand] = useDeleteBrandMutation();
 
   const { data: brands, isFetching } = useBrandListQuery({
     pageNumber,
@@ -47,11 +50,27 @@ const BrandList = () => {
         return (
           <Space>
             <UpdateBrand brandInfo={brand} key={Date.now()} />
+            <Button danger onClick={() => handleDelete(brand.key)}>
+              Delete
+            </Button>
           </Space>
         );
       },
     },
   ];
+
+  // handle delete action
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure, you want to delete this Brand record?",
+      okText: "Yes",
+      okType: "danger",
+      onOk: async () => {
+        await deleteBrand(id);
+        toast.success("Brand Deleted Successfully");
+      },
+    });
+  };
 
   return (
     <>

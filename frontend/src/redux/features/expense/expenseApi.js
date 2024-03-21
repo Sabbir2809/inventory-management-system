@@ -21,8 +21,8 @@ const expenseApi = baseApi.injectEndpoints({
     }),
 
     expenseTypeList: builder.query({
-      query: (options) => ({
-        url: `/expense/type/${options.pageNumber}/${options.perPage}/${options.searchKeyword}`,
+      query: () => ({
+        url: `/expense/dropdown`,
         method: "GET",
       }),
       providesTags: ["expense"],
@@ -53,6 +53,14 @@ const expenseApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["expense"],
     }),
+
+    deleteExpense: builder.mutation({
+      query: (id) => ({
+        url: `/expense/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["expense"],
+    }),
   }),
 });
 
@@ -63,4 +71,5 @@ export const {
   useCreateExpenseMutation,
   useExpenseListQuery,
   useUpdateExpenseMutation,
+  useDeleteExpenseMutation,
 } = expenseApi;

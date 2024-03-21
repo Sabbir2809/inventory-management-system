@@ -4,28 +4,21 @@ import { useNavigate } from "react-router-dom";
 import IForm from "../../components/form/IForm";
 import IInput from "../../components/form/IInput";
 import ISelect from "../../components/form/ISelect";
-import { useBrandListQuery } from "../../redux/features/product/brandApi";
-import { useCategoryListQuery } from "../../redux/features/product/categoryApi";
+import { productUnitOptions } from "../../constants/global";
+import { useBrandDropdownQuery } from "../../redux/features/product/brandApi";
+import { useCategoryDropdownQuery } from "../../redux/features/product/categoryApi";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
 
-  const { data: brands } = useBrandListQuery({
-    pageNumber: 0,
-    perPage: 10,
-    searchKeyword: 0,
-  });
+  const { data: brands } = useBrandDropdownQuery(undefined);
   const brandOptions = brands?.data?.map((item) => ({
     value: item._id,
     label: `${item.name}`,
   }));
 
-  const { data: categories } = useCategoryListQuery({
-    pageNumber: 0,
-    perPage: 10,
-    searchKeyword: 0,
-  });
+  const { data: categories } = useCategoryDropdownQuery(undefined);
   const categoryOptions = categories?.data?.map((item) => ({
     value: item._id,
     label: `${item.name}`,
@@ -68,7 +61,13 @@ const CreateProduct = () => {
               required={true}
             />
             <IInput type="text" name="name" label="Product Name" required={true} />
-            <IInput type="text" name="unit" label="Product Unit" required={true} />
+            <ISelect
+              name="unit"
+              label="Product Unit"
+              placeholder="Select Product Unit"
+              options={productUnitOptions}
+              required={true}
+            />
             <IInput type="text" name="details" label="Product Details" required={true} />
             <Button htmlType="submit" type="primary" size="large">
               Create Product

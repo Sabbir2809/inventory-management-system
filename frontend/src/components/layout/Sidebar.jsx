@@ -35,26 +35,26 @@ const Sidebar = () => {
   }, [token]);
 
   return (
-    <Sider
-      trigger={null}
-      collapsible
-      collapsed={collapsed}
-      breakpoint="lg"
-      collapsedWidth="0"
-      style={{ height: "100vh", position: "sticky", top: "0", left: "0" }}>
+    <Sider trigger={null} collapsible collapsed={collapsed}>
       <div
         style={{
-          color: "white",
-          height: "4rem",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          height: "4.5rem",
         }}>
-        <Typography.Title level={4} style={{ color: "white" }}>
+        <Typography.Title
+          style={{
+            color: "white",
+            border: "2px solid white",
+            borderRadius: "6px",
+            padding: "3px",
+          }}
+          level={collapsed ? 5 : 3}
+          color="white">
           Inventory
         </Typography.Title>
       </div>
-
       {/* Menu Items */}
       <Menu theme="dark" mode="inline" items={sidebarItems} />
     </Sider>

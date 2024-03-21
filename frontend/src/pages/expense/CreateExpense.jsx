@@ -11,11 +11,7 @@ const CreateExpense = () => {
 
   const [createExpense] = useCreateExpenseMutation();
 
-  const { data: expenseTypes } = useExpenseTypeListQuery({
-    pageNumber: 0,
-    perPage: 10,
-    searchKeyword: 0,
-  });
+  const { data: expenseTypes } = useExpenseTypeListQuery(undefined);
   const expenseOptions = expenseTypes?.data?.map((item) => ({
     value: item._id,
     label: `${item.name}`,
@@ -46,7 +42,7 @@ const CreateExpense = () => {
         <Col span={24} lg={12}>
           <IForm onSubmit={onsubmit}>
             <IInput type="text" name="name" label="Name" required={true} />
-            <IInput type="text" name="amount" label="amount" required={true} />
+            <IInput type="number" name="amount" label="amount" required={true} />
             <IInput type="text" name="note" label="note" required={true} />
             <ISelect
               name="ExpenseTypeId"

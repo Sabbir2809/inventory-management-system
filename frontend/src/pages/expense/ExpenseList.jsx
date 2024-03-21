@@ -1,13 +1,16 @@
-import { Input, Space, Table, Typography } from "antd";
+import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useExpenseListQuery } from "../../redux/features/expense/expenseApi";
+import toast from "react-hot-toast";
+import { useDeleteExpenseMutation, useExpenseListQuery } from "../../redux/features/expense/expenseApi";
 import UpdateExpense from "./UpdateExpense";
 
 const ExpenseList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
+
+  const [deleteExpense] = useDeleteExpenseMutation();
 
   const { data: expenses, isFetching } = useExpenseListQuery({
     pageNumber,
@@ -20,7 +23,7 @@ const ExpenseList = () => {
     key: _id,
     name,
     expenseType: ExpenseType[0]?.name,
-    amount,
+    amount: `TK. ${amount}`,
     note,
     createdAt: moment(createdAt).format("LLL"),
     serial: index + 1,
@@ -65,11 +68,27 @@ const ExpenseList = () => {
         return (
           <Space>
             <UpdateExpense expenseInfo={expense} key={Date.now()} />
+            <Button danger onClick={() => handleDelete(expense.key)}>
+              Delete
+            </Button>
           </Space>
         );
       },
     },
   ];
+
+  // handle delete action
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure, you want to delete this Expense record?",
+      okText: "Yes",
+      okType: "danger",
+      onOk: async () => {
+        await deleteExpense(id);
+        toast.success("Expense Deleted Successfully");
+      },
+    });
+  };
 
   return (
     <>

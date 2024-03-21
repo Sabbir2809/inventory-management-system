@@ -1,13 +1,16 @@
-import { Input, Space, Table, Typography } from "antd";
+import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useSupplierListQuery } from "../../redux/features/supplier/supplierApi";
+import toast from "react-hot-toast";
+import { useDeleteSupplierMutation, useSupplierListQuery } from "../../redux/features/supplier/supplierApi";
 import UpdateSupplier from "./UpdateSupplier";
 
 const SupplierList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
+
+  const [deleteSupplier] = useDeleteSupplierMutation();
 
   const { data: suppliers, isFetching } = useSupplierListQuery({
     pageNumber,
@@ -65,11 +68,27 @@ const SupplierList = () => {
         return (
           <Space>
             <UpdateSupplier supplierInfo={supplier} key={Date.now()} />
+            <Button danger onClick={() => handleDelete(supplier.key)}>
+              Delete
+            </Button>
           </Space>
         );
       },
     },
   ];
+
+  // handle delete action
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure, you want to delete this Supplier record?",
+      okText: "Yes",
+      okType: "danger",
+      onOk: async () => {
+        await deleteSupplier(id);
+        toast.success("Supplier Deleted Successfully");
+      },
+    });
+  };
 
   return (
     <>

@@ -1,13 +1,16 @@
-import { Input, Space, Table, Typography } from "antd";
+import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useCustomerListQuery } from "../../redux/features/customer/customerApi";
+import toast from "react-hot-toast";
+import { useCustomerListQuery, useDeleteCustomerMutation } from "../../redux/features/customer/customerApi";
 import UpdateCustomer from "./UpdateCustomer";
 
 const CustomerList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
+
+  const [deleteCustomer] = useDeleteCustomerMutation();
 
   const { data: customers, isFetching } = useCustomerListQuery({
     pageNumber,
@@ -65,11 +68,27 @@ const CustomerList = () => {
         return (
           <Space>
             <UpdateCustomer customerInfo={customer} key={Date.now()} />
+            <Button danger onClick={() => handleDelete(customer.key)}>
+              Delete
+            </Button>
           </Space>
         );
       },
     },
   ];
+
+  // handle delete action
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure, you want to delete this Customer record?",
+      okText: "Yes",
+      okType: "danger",
+      onOk: async () => {
+        await deleteCustomer(id);
+        toast.success("Customer Deleted Successfully");
+      },
+    });
+  };
 
   return (
     <>

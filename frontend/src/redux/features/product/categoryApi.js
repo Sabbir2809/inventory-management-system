@@ -11,6 +11,14 @@ const brandApi = baseApi.injectEndpoints({
       invalidatesTags: ["category"],
     }),
 
+    categoryDropdown: builder.query({
+      query: () => ({
+        url: `/category/dropdown`,
+        method: "GET",
+      }),
+      providesTags: ["category"],
+    }),
+
     categoryList: builder.query({
       query: (options) => ({
         url: `/category/${options.pageNumber}/${options.perPage}/${options.searchKeyword}`,
@@ -27,7 +35,21 @@ const brandApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["category"],
     }),
+
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["category"],
+    }),
   }),
 });
 
-export const { useCreateCategoryMutation, useCategoryListQuery, useUpdateCategoryMutation } = brandApi;
+export const {
+  useCreateCategoryMutation,
+  useCategoryListQuery,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+  useCategoryDropdownQuery,
+} = brandApi;

@@ -11,6 +11,14 @@ const brandApi = baseApi.injectEndpoints({
       invalidatesTags: ["brand"],
     }),
 
+    brandDropdown: builder.query({
+      query: () => ({
+        url: `/brand/dropdown`,
+        method: "GET",
+      }),
+      providesTags: ["brand"],
+    }),
+
     brandList: builder.query({
       query: (options) => ({
         url: `/brand/${options.pageNumber}/${options.perPage}/${options.searchKeyword}`,
@@ -27,7 +35,21 @@ const brandApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["brand"],
     }),
+
+    deleteBrand: builder.mutation({
+      query: (id) => ({
+        url: `/brand/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["brand"],
+    }),
   }),
 });
 
-export const { useCreateBrandMutation, useBrandListQuery, useUpdateBrandMutation } = brandApi;
+export const {
+  useCreateBrandMutation,
+  useBrandListQuery,
+  useUpdateBrandMutation,
+  useDeleteBrandMutation,
+  useBrandDropdownQuery,
+} = brandApi;

@@ -1,3 +1,11 @@
+import { AiOutlineBank, AiOutlineUser } from "react-icons/ai";
+import { FaListOl } from "react-icons/fa";
+// import { AiOutlineBank, AiOutlineUser, AiOutlineUnorderedList } from "react-icons/ai";
+import { BsBox } from "react-icons/bs";
+// import { BsBox, BsPeople, BsGraphUp, BsCircle, BsBagPlus, BsBagX, BsCartPlus } from "react-icons/bs";
+import { IoCreateOutline } from "react-icons/io5";
+import { RiDashboardLine } from "react-icons/ri";
+import { TbTruckDelivery } from "react-icons/tb";
 import ProfileDetails from "../pages/auth/ProfileDetails";
 import CreateCustomer from "../pages/customer/CreateCustomer";
 import CustomerList from "../pages/customer/CustomerList";
@@ -16,6 +24,7 @@ import SupplierList from "../pages/supplier/SupplierList";
 
 export const userPaths = [
   {
+    icon: <RiDashboardLine />,
     name: "Dashboard",
     path: "dashboard",
     element: <Dashboard />,
@@ -25,14 +34,17 @@ export const userPaths = [
     element: <ProfileDetails />,
   },
   {
+    icon: <AiOutlineUser />,
     name: "Customer",
     children: [
       {
-        name: "Create Customer",
+        icon: <IoCreateOutline />,
+        name: "New Customer",
         path: "create-customer",
         element: <CreateCustomer />,
       },
       {
+        icon: <FaListOl />,
         name: "Customer List",
         path: "customers",
         element: <CustomerList />,
@@ -40,14 +52,17 @@ export const userPaths = [
     ],
   },
   {
+    icon: <TbTruckDelivery />,
     name: "Supplier",
     children: [
       {
-        name: "Create Supplier",
+        icon: <IoCreateOutline />,
+        name: "New Supplier",
         path: "create-supplier",
         element: <CreateSupplier />,
       },
       {
+        icon: <FaListOl />,
         name: "Supplier List",
         path: "suppliers",
         element: <SupplierList />,
@@ -55,19 +70,23 @@ export const userPaths = [
     ],
   },
   {
+    icon: <AiOutlineBank />,
     name: "Expense",
     children: [
       {
-        name: "Create Expense Type",
+        icon: <IoCreateOutline />,
+        name: "New Expense-Type",
         path: "create-type",
         element: <CreateExpenseType />,
       },
       {
-        name: "Create Expense",
+        icon: <IoCreateOutline />,
+        name: "New Expense",
         path: "create-expense",
         element: <CreateExpense />,
       },
       {
+        icon: <FaListOl />,
         name: "Expense List",
         path: "expenses",
         element: <ExpenseList />,
@@ -75,34 +94,41 @@ export const userPaths = [
     ],
   },
   {
+    icon: <BsBox />,
     name: "Products",
     children: [
       {
-        name: "Create Brand",
+        icon: <IoCreateOutline />,
+        name: "New Brand",
         path: "create-brand",
         element: <CreateBrand />,
       },
       {
+        icon: <FaListOl />,
         name: "Brand List",
         path: "brands",
         element: <BrandList />,
       },
       {
-        name: "Create Category",
+        icon: <IoCreateOutline />,
+        name: "New Category",
         path: "create-category",
         element: <CreateCategory />,
       },
       {
+        icon: <FaListOl />,
         name: "Category List",
         path: "categories",
         element: <CategoryList />,
       },
       {
-        name: "Create Product",
+        icon: <IoCreateOutline />,
+        name: "New Product",
         path: "create-product",
         element: <CreateProduct />,
       },
       {
+        icon: <FaListOl />,
         name: "Product List",
         path: "products",
         element: <ProductList />,

@@ -1,13 +1,16 @@
-import { Input, Space, Table, Typography } from "antd";
+import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useCategoryListQuery } from "../../../redux/features/product/categoryApi";
+import toast from "react-hot-toast";
+import { useCategoryListQuery, useDeleteCategoryMutation } from "../../../redux/features/product/categoryApi";
 import UpdateCategory from "./UpdateCategory";
 
 const CategoryList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
+
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   const { data: brands, isFetching } = useCategoryListQuery({
     pageNumber,
@@ -47,11 +50,27 @@ const CategoryList = () => {
         return (
           <Space>
             <UpdateCategory categoryInfo={category} key={Date.now()} />
+            <Button danger onClick={() => handleDelete(category.key)}>
+              Delete
+            </Button>
           </Space>
         );
       },
     },
   ];
+
+  // handle delete action
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure, you want to delete this Category record?",
+      okText: "Yes",
+      okType: "danger",
+      onOk: async () => {
+        await deleteCategory(id);
+        toast.success("Category Deleted Successfully");
+      },
+    });
+  };
 
   return (
     <>

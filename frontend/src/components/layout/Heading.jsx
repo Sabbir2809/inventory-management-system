@@ -40,11 +40,11 @@ const Heading = () => {
   return (
     <Header
       style={{
-        padding: 0,
         position: "sticky",
         top: 0,
-        zIndex: 1,
-        width: "100%",
+        left: 0,
+        padding: 0,
+        zIndex: 100,
         display: "flex",
         alignItems: "center",
         backgroundColor: "white",
@@ -59,7 +59,7 @@ const Heading = () => {
           height: 64,
         }}
       />
-      <div style={{ marginLeft: "auto", marginRight: "20px" }}>
+      <div style={{ marginLeft: "auto", marginRight: "15px" }}>
         <Dropdown.Button menu={menuProps} placement="bottomRight" icon={<UserOutlined />}>
           Profile
         </Dropdown.Button>

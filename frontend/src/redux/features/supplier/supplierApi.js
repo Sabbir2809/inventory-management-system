@@ -35,6 +35,14 @@ const supplierApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["supplier"],
     }),
+
+    deleteSupplier: builder.mutation({
+      query: (id) => ({
+        url: `/supplier/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["supplier"],
+    }),
   }),
 });
 
@@ -43,4 +51,5 @@ export const {
   useSupplierListQuery,
   useSupplierDetailsQuery,
   useUpdateSupplierMutation,
+  useDeleteSupplierMutation,
 } = supplierApi;

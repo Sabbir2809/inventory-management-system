@@ -1,13 +1,16 @@
-import { Input, Space, Table, Typography } from "antd";
+import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { useProductListQuery } from "../../redux/features/product/productApi";
+import toast from "react-hot-toast";
+import { useDeleteProductMutation, useProductListQuery } from "../../redux/features/product/productApi";
 import UpdateProduct from "./UpdateProduct";
 
 const ProductList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [searchKeyword, setSearchKeyword] = useState("0");
+
+  const [deleteProduct] = useDeleteProductMutation();
 
   const { data: products, isFetching } = useProductListQuery({
     pageNumber,
@@ -75,11 +78,27 @@ const ProductList = () => {
         return (
           <Space>
             <UpdateProduct productInfo={product} key={Date.now()} />
+            <Button danger onClick={() => handleDelete(product.key)}>
+              Delete
+            </Button>
           </Space>
         );
       },
     },
   ];
+
+  // handle delete action
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure, you want to delete this Product record?",
+      okText: "Yes",
+      okType: "danger",
+      onOk: async () => {
+        await deleteProduct(id);
+        toast.success("Product Deleted Successfully");
+      },
+    });
+  };
 
   return (
     <>
