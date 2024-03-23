@@ -9,19 +9,19 @@ const expenseSummary = async (req) => {
     },
     {
       $facet: {
-        Total: [
+        total: [
           {
             $group: {
               _id: 0,
-              TotalAmount: { $sum: "$amount" },
+              totalAmount: { $sum: "$amount" },
             },
           },
         ],
-        Last30Days: [
+        last30Days: [
           {
             $group: {
               _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-              TotalAmount: { $sum: "$amount" },
+              totalAmount: { $sum: "$amount" },
             },
           },
           {
@@ -32,7 +32,10 @@ const expenseSummary = async (req) => {
       },
     },
   ]);
-  return result;
+  return {
+    total: result[0].total[0]?.totalAmount,
+    last30Days: result[0].last30Days,
+  };
 };
 
 const summaryGenerate = async (req, Model) => {
@@ -44,19 +47,19 @@ const summaryGenerate = async (req, Model) => {
     },
     {
       $facet: {
-        Total: [
+        total: [
           {
             $group: {
               _id: 0,
-              TotalAmount: { $sum: "$grantTotal" },
+              totalAmount: { $sum: "$grantTotal" },
             },
           },
         ],
-        Last30Days: [
+        last30Days: [
           {
             $group: {
               _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-              TotalAmount: { $sum: "$grantTotal" },
+              totalAmount: { $sum: "$grantTotal" },
             },
           },
           {
@@ -67,7 +70,10 @@ const summaryGenerate = async (req, Model) => {
       },
     },
   ]);
-  return result;
+  return {
+    total: result[0].total[0]?.totalAmount,
+    last30Days: result[0].last30Days,
+  };
 };
 
 module.exports = {

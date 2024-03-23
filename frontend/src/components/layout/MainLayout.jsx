@@ -17,7 +17,6 @@ const MainLayout = () => {
           style={{
             margin: "10px 20px",
             padding: 10,
-            height: "100vh",
           }}>
           {/* outlet */}
           <Outlet></Outlet>

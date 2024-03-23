@@ -42,11 +42,12 @@ const Heading = () => {
       style={{
         position: "sticky",
         top: 0,
-        left: 0,
+        zIndex: 1,
         padding: 0,
-        zIndex: 100,
+        width: "100%",
         display: "flex",
         alignItems: "center",
+        justifyContent: "space-between",
         backgroundColor: "white",
       }}>
       <Button
@@ -59,7 +60,7 @@ const Heading = () => {
           height: 64,
         }}
       />
-      <div style={{ marginLeft: "auto", marginRight: "15px" }}>
+      <div style={{ marginRight: "15px" }}>
         <Dropdown.Button menu={menuProps} placement="bottomRight" icon={<UserOutlined />}>
           Profile
         </Dropdown.Button>

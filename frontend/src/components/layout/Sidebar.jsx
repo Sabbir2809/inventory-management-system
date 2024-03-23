@@ -56,7 +56,16 @@ const Sidebar = () => {
         </Typography.Title>
       </div>
       {/* Menu Items */}
-      <Menu theme="dark" mode="inline" items={sidebarItems} />
+      <Menu
+        theme="dark"
+        mode="inline"
+        items={sidebarItems}
+        style={{
+          minHeight: "100vh",
+          position: "sticky",
+          top: 0,
+        }}
+      />
     </Sider>
   );
 };
