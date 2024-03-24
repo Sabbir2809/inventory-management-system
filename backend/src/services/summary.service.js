@@ -33,8 +33,8 @@ const expenseSummary = async (req) => {
     },
   ]);
   return {
-    total: result[0].total[0]?.totalAmount,
-    last30Days: result[0].last30Days,
+    total: result[0]?.total[0]?.totalAmount,
+    last30Days: result[0]?.last30Days,
   };
 };
 
@@ -71,8 +71,8 @@ const summaryGenerate = async (req, Model) => {
     },
   ]);
   return {
-    total: result[0].total[0]?.totalAmount,
-    last30Days: result[0].last30Days,
+    total: result[0]?.total[0]?.totalAmount,
+    last30Days: result[0]?.last30Days,
   };
 };
 

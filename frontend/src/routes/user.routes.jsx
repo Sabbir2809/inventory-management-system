@@ -5,7 +5,7 @@ import { BsBox } from "react-icons/bs";
 // import { BsBox, BsPeople, BsGraphUp, BsCircle, BsBagPlus, BsBagX, BsCartPlus } from "react-icons/bs";
 import { IoCreateOutline } from "react-icons/io5";
 import { RiDashboardLine } from "react-icons/ri";
-import { TbTruckDelivery } from "react-icons/tb";
+import { TbReportAnalytics, TbReportSearch, TbTruckDelivery } from "react-icons/tb";
 import ProfileDetails from "../pages/auth/ProfileDetails";
 import CreateCustomer from "../pages/customer/CreateCustomer";
 import CustomerList from "../pages/customer/CustomerList";
@@ -19,6 +19,10 @@ import BrandList from "../pages/product/brand/BrandList";
 import CreateBrand from "../pages/product/brand/CreateBrand";
 import CategoryList from "../pages/product/category/CategoryList";
 import CreateCategory from "../pages/product/category/CreateCategory";
+import ExpenseReport from "../pages/report/ExpenseReport";
+import PurchaseReport from "../pages/report/PurchaseReport";
+import ReturnReport from "../pages/report/ReturnReport";
+import SellReport from "../pages/report/SellReport";
 import CreateSupplier from "../pages/supplier/CreateSupplier";
 import SupplierList from "../pages/supplier/SupplierList";
 
@@ -132,6 +136,36 @@ export const userPaths = [
         name: "Product List",
         path: "products",
         element: <ProductList />,
+      },
+    ],
+  },
+  {
+    icon: <TbReportSearch />,
+    name: "Report",
+    children: [
+      {
+        icon: <TbReportAnalytics />,
+        name: "Expense Report",
+        path: "expense-report",
+        element: <ExpenseReport />,
+      },
+      {
+        icon: <TbReportAnalytics />,
+        name: "Sell Report",
+        path: "sell-report",
+        element: <SellReport />,
+      },
+      {
+        icon: <TbReportAnalytics />,
+        name: "Purchase Report",
+        path: "purchase-report",
+        element: <PurchaseReport />,
+      },
+      {
+        icon: <TbReportAnalytics />,
+        name: "Return Report",
+        path: "return-report",
+        element: <ReturnReport />,
       },
     ],
   },
