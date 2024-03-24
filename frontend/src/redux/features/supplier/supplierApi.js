@@ -43,6 +43,14 @@ const supplierApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["supplier"],
     }),
+
+    supplierDropdown: builder.query({
+      query: () => ({
+        url: `/supplier/dropdown`,
+        method: "GET",
+      }),
+      providesTags: ["supplier"],
+    }),
   }),
 });
 
@@ -52,4 +60,5 @@ export const {
   useSupplierDetailsQuery,
   useUpdateSupplierMutation,
   useDeleteSupplierMutation,
+  useSupplierDropdownQuery,
 } = supplierApi;

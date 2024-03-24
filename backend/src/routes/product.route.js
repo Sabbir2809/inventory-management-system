@@ -13,5 +13,6 @@ productRoutes.get(
 );
 productRoutes.get("/details/:id", checkAuth(USER_ROLE.user), ProductControllers.productDetails);
 productRoutes.delete("/:id", checkAuth(USER_ROLE.user), ProductControllers.deleteProduct);
+productRoutes.get("/dropdown", checkAuth(USER_ROLE.user), ProductControllers.productDropDown);
 
 module.exports = productRoutes;

@@ -1,6 +1,7 @@
 import { Layout, Menu, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { selectCurrentToken } from "../../redux/features/auth/authSlice";
 import { userPaths } from "../../routes/user.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
@@ -52,7 +53,7 @@ const Sidebar = () => {
           }}
           level={collapsed ? 5 : 3}
           color="white">
-          Inventory
+          <Link to="/dashboard">Inventory</Link>
         </Typography.Title>
       </div>
       {/* Menu Items */}

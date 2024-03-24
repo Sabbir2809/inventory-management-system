@@ -35,6 +35,14 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["product"],
     }),
+
+    productDropdown: builder.query({
+      query: () => ({
+        url: `/product/dropdown`,
+        method: "GET",
+      }),
+      providesTags: ["product"],
+    }),
   }),
 });
 
@@ -43,4 +51,5 @@ export const {
   useProductListQuery,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useProductDropdownQuery,
 } = productApi;

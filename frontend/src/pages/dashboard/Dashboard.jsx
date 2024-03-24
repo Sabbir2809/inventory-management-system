@@ -30,17 +30,17 @@ const Dashboard = () => {
     <Col>
       {/* stats */}
       <Row gutter={8}>
-        <SummaryCard total={totalExpense} />
-        <SummaryCard total={totalSell} />
-        <SummaryCard total={totalPurchase} />
-        <SummaryCard total={totalReturn} />
+        <SummaryCard total={totalExpense} title="Total Expense" />
+        <SummaryCard total={totalSell} title="Total Sell" />
+        <SummaryCard total={totalPurchase} title="Total Purchase" />
+        <SummaryCard total={totalReturn} title="Total Return" />
       </Row>
       {/* chart */}
       <Row gutter={8}>
-        <SummaryChart data={expenseChart} />
-        <SummaryChart data={sellChart} />
-        <SummaryChart data={purchaseChart} />
-        <SummaryChart data={returnChart} />
+        <SummaryChart data={expenseChart} title="Expense Last 30 Days" />
+        <SummaryChart data={sellChart} title="Sell Last 30 Days" />
+        <SummaryChart data={purchaseChart} title="Purchase Last 30 Days" />
+        <SummaryChart data={returnChart} title="Return Last 30 Days" />
       </Row>
     </Col>
   );

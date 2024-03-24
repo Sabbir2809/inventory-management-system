@@ -1,11 +1,13 @@
-import { AiOutlineBank, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
+import { BiPurchaseTag } from "react-icons/bi";
 import { FaListOl } from "react-icons/fa";
+import { GiExpense, GiReturnArrow, GiSellCard } from "react-icons/gi";
 // import { AiOutlineBank, AiOutlineUser, AiOutlineUnorderedList } from "react-icons/ai";
 import { BsBox } from "react-icons/bs";
 // import { BsBox, BsPeople, BsGraphUp, BsCircle, BsBagPlus, BsBagX, BsCartPlus } from "react-icons/bs";
 import { IoCreateOutline } from "react-icons/io5";
 import { RiDashboardLine } from "react-icons/ri";
-import { TbReportAnalytics, TbReportSearch, TbTruckDelivery } from "react-icons/tb";
+import { TbReportSearch, TbTruckDelivery } from "react-icons/tb";
 import ProfileDetails from "../pages/auth/ProfileDetails";
 import CreateCustomer from "../pages/customer/CreateCustomer";
 import CustomerList from "../pages/customer/CustomerList";
@@ -19,10 +21,16 @@ import BrandList from "../pages/product/brand/BrandList";
 import CreateBrand from "../pages/product/brand/CreateBrand";
 import CategoryList from "../pages/product/category/CategoryList";
 import CreateCategory from "../pages/product/category/CreateCategory";
+import CreatePurchase from "../pages/purchase/CreatePurchase";
+import PurchaseList from "../pages/purchase/PurchaseList";
 import ExpenseReport from "../pages/report/ExpenseReport";
 import PurchaseReport from "../pages/report/PurchaseReport";
 import ReturnReport from "../pages/report/ReturnReport";
 import SellReport from "../pages/report/SellReport";
+import CreateReturn from "../pages/return/CreateReturn";
+import ReturnList from "../pages/return/ReturnList";
+import CreateSell from "../pages/sell/CreateSell";
+import SellList from "../pages/sell/SellList";
 import CreateSupplier from "../pages/supplier/CreateSupplier";
 import SupplierList from "../pages/supplier/SupplierList";
 
@@ -74,7 +82,7 @@ export const userPaths = [
     ],
   },
   {
-    icon: <AiOutlineBank />,
+    icon: <GiExpense />,
     name: "Expense",
     children: [
       {
@@ -140,29 +148,83 @@ export const userPaths = [
     ],
   },
   {
+    icon: <GiSellCard />,
+    name: "Sell",
+    children: [
+      {
+        icon: <IoCreateOutline />,
+        name: "New Sell",
+        path: "create-sell",
+        element: <CreateSell />,
+      },
+      {
+        icon: <FaListOl />,
+        name: "Sell List",
+        path: "sell-list",
+        element: <SellList />,
+      },
+    ],
+  },
+  {
+    icon: <BiPurchaseTag />,
+    name: "Purchase",
+    children: [
+      {
+        icon: <IoCreateOutline />,
+        name: "New Purchase",
+        path: "create-purchase",
+        element: <CreatePurchase />,
+      },
+      {
+        icon: <FaListOl />,
+        name: "Purchase List",
+        path: "purchase-list",
+        element: <PurchaseList />,
+      },
+    ],
+  },
+  {
+    icon: <GiReturnArrow />,
+    name: "Return",
+    children: [
+      {
+        icon: <IoCreateOutline />,
+        name: "New Return",
+        path: "create-return",
+        element: <CreateReturn />,
+      },
+      {
+        icon: <FaListOl />,
+        name: "Return List",
+        path: "return-list",
+        element: <ReturnList />,
+      },
+    ],
+  },
+  {
     icon: <TbReportSearch />,
     name: "Report",
     children: [
       {
-        icon: <TbReportAnalytics />,
+        icon: <GiExpense />,
         name: "Expense Report",
         path: "expense-report",
         element: <ExpenseReport />,
       },
       {
-        icon: <TbReportAnalytics />,
+        icon: <GiSellCard />,
         name: "Sell Report",
         path: "sell-report",
         element: <SellReport />,
       },
       {
-        icon: <TbReportAnalytics />,
+        icon: <BiPurchaseTag />,
         name: "Purchase Report",
         path: "purchase-report",
         element: <PurchaseReport />,
       },
       {
-        icon: <TbReportAnalytics />,
+        icon: <GiReturnArrow />,
         name: "Return Report",
         path: "return-report",
         element: <ReturnReport />,

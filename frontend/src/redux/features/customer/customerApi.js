@@ -35,6 +35,14 @@ const customerApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["customer"],
     }),
+
+    customerDropdown: builder.query({
+      query: () => ({
+        url: `/customer/dropdown`,
+        method: "GET",
+      }),
+      providesTags: ["customer"],
+    }),
   }),
 });
 
@@ -43,4 +51,5 @@ export const {
   useCustomerListQuery,
   useUpdateCustomerMutation,
   useDeleteCustomerMutation,
+  useCustomerDropdownQuery,
 } = customerApi;

@@ -10,6 +10,6 @@ purchaseRoutes.get(
   checkAuth(USER_ROLE.user),
   PurchaseControllers.purchaseList
 );
-purchaseRoutes.get("/:id", checkAuth(USER_ROLE.user), PurchaseControllers.deletePurchase);
+purchaseRoutes.delete("/:id", checkAuth(USER_ROLE.user), PurchaseControllers.deletePurchase);
 
 module.exports = purchaseRoutes;

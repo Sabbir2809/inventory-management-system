@@ -51,7 +51,10 @@ const productList = catchAsync(async (req, res) => {
     $lookup: { from: "categories", localField: "CategoryId", foreignField: "_id", as: "Category" },
   };
   // service
-  const result = await ProductServices.list(req, ProductModel, searchArray, [joinStage1, joinStage2]);
+  const result = await ProductServices.list(req, ProductModel, searchArray, [
+    joinStage1,
+    joinStage2,
+  ]);
 
   // send response
   sendSuccessResponse(res, {
@@ -108,10 +111,25 @@ const deleteProduct = catchAsync(async (req, res) => {
   });
 });
 
+const productDropDown = catchAsync(async (req, res) => {
+  const projection = { _id: 1, name: 1 };
+  // service
+  const result = await ProductServices.dropDown(req, ProductModel, projection);
+
+  // send response
+  sendSuccessResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Product Dropdown Retrieved Successfully",
+    data: result,
+  });
+});
+
 module.exports = {
   createProduct,
   updateProduct,
   productList,
   productDetails,
   deleteProduct,
+  productDropDown,
 };
