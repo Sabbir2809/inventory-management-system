@@ -14,25 +14,21 @@ const Login = () => {
   const [login] = useLoginMutation();
 
   const onsubmit = async (data) => {
-    try {
-      const userInfo = {
-        email: data.email,
-        password: data.password,
-      };
+    const userInfo = {
+      email: data.email,
+      password: data.password,
+    };
 
-      if (!data.email || !data.password) {
-        return toast.error("Email and Password are Required");
-      }
+    if (!data.email || !data.password) {
+      return toast.error("Email and Password are Required");
+    }
 
-      const res = await login(userInfo).unwrap();
-      const user = verifyToken(res.data.accessToken);
-      dispatch(setUser({ user: user, token: res.data.accessToken }));
+    const res = await login(userInfo).unwrap();
+    const user = verifyToken(res.data.accessToken);
+    dispatch(setUser({ user: user, token: res.data.accessToken }));
 
-      if (res.success) {
-        window.location.href = "/dashboard";
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    if (res.success) {
+      window.location.href = "/dashboard";
     }
   };
 

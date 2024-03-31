@@ -125,8 +125,10 @@ const SellList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteSell(id);
-        toast.success("Sell Deleted Successfully");
+        const res = await deleteSell(id);
+        if (res.data.success) {
+          toast.success("Sell Deleted Successfully");
+        }
       },
     });
   };

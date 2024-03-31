@@ -2,7 +2,10 @@ import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useCustomerListQuery, useDeleteCustomerMutation } from "../../redux/features/customer/customerApi";
+import {
+  useCustomerListQuery,
+  useDeleteCustomerMutation,
+} from "../../redux/features/customer/customerApi";
 import UpdateCustomer from "./UpdateCustomer";
 
 const CustomerList = () => {
@@ -19,15 +22,17 @@ const CustomerList = () => {
   });
 
   const metaData = customers?.meta;
-  const tableData = customers?.data?.map(({ _id, name, email, mobile, address, createdAt }, index) => ({
-    key: _id,
-    name,
-    email,
-    mobile,
-    address,
-    createdAt: moment(createdAt).format("LLL"),
-    serial: index + 1,
-  }));
+  const tableData = customers?.data?.map(
+    ({ _id, name, email, mobile, address, createdAt }, index) => ({
+      key: _id,
+      name,
+      email,
+      mobile,
+      address,
+      createdAt: moment(createdAt).format("LLL"),
+      serial: index + 1,
+    })
+  );
 
   const columns = [
     {
@@ -84,8 +89,10 @@ const CustomerList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteCustomer(id);
-        toast.success("Customer Deleted Successfully");
+        const res = await deleteCustomer(id);
+        if (res.data.success) {
+          toast.success("Customer Deleted Successfully");
+        }
       },
     });
   };

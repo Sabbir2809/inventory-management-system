@@ -11,27 +11,23 @@ const Signup = () => {
   const [signup] = useSignupMutation();
 
   const onsubmit = async (data) => {
-    try {
-      const userInfo = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        mobile: data.mobile,
-        password: data.password,
-      };
+    const userInfo = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      mobile: data.mobile,
+      password: data.password,
+    };
 
-      if (!data.firstName || !data.lastName || !data.email || !data.mobile || !data.password) {
-        return toast.error("All Field(*) are Required");
-      }
+    if (!data.firstName || !data.lastName || !data.email || !data.mobile || !data.password) {
+      return toast.error("All Field(*) are Required");
+    }
 
-      const res = await signup(userInfo).unwrap();
+    const res = await signup(userInfo).unwrap();
 
-      if (res.success) {
-        toast.success("Registration Successful, Please Login");
-        navigate("/login");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    if (res.success) {
+      toast.success("Registration Successful, Please Login");
+      navigate("/login");
     }
   };
 
@@ -47,7 +43,13 @@ const Signup = () => {
               <IInput type="text" name="lastName" label="Last Name" required={true} />
             </Col>
           </Row>
-          <IInput type="text" name="mobile" label="Mobile Number" required={true} addonBefore="+88" />
+          <IInput
+            type="text"
+            name="mobile"
+            label="Mobile Number"
+            required={true}
+            addonBefore="+88"
+          />
           <IInput type="text" name="email" label="Email" required={true} />
           <IInput type="password" name="password" label="Password" required={true} />
           <Button htmlType="submit" type="primary" size="large" style={{ width: "100%" }}>

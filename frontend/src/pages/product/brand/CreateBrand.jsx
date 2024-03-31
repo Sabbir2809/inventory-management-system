@@ -10,17 +10,13 @@ const CreateBrand = () => {
   const [createBrand] = useCreateBrandMutation();
 
   const onsubmit = async (data) => {
-    try {
-      if (!data.name) {
-        return toast.error("Brand name is Required");
-      }
+    if (!data.name) {
+      return toast.error("Brand name is Required");
+    }
 
-      const res = await createBrand(data);
-      if (res.data.success) {
-        navigate("/brands");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    const res = await createBrand(data);
+    if (res.data.success) {
+      navigate("/brands");
     }
   };
   return (

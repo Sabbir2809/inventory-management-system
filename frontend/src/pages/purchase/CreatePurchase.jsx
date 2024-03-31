@@ -29,37 +29,33 @@ const CreatePurchase = () => {
     if (!data.SupplierId || !data.ProductId || !data.shoppingCost || !data.unitCost) {
       return toast.error("All Field are Required");
     }
-    try {
-      const purchaseData = {
-        parent: {
-          SupplierId: data.SupplierId,
-          vatTax: Number(data.vatTax),
-          discount: Number(data.discount),
-          otherCost: Number(data.otherCost),
-          shoppingCost: Number(data.shoppingCost),
-          grantTotal:
-            Number(data.vatTax) +
-            Number(data.otherCost) +
-            Number(data.shoppingCost) -
-            Number(data.discount),
-          note: data.note,
+    const purchaseData = {
+      parent: {
+        SupplierId: data.SupplierId,
+        vatTax: Number(data.vatTax),
+        discount: Number(data.discount),
+        otherCost: Number(data.otherCost),
+        shoppingCost: Number(data.shoppingCost),
+        grantTotal:
+          Number(data.vatTax) +
+          Number(data.otherCost) +
+          Number(data.shoppingCost) -
+          Number(data.discount),
+        note: data.note,
+      },
+      child: [
+        {
+          ProductId: data.ProductId,
+          quantity: Number(data.quantity),
+          unitCost: Number(data.unitCost),
+          total: Number(data.quantity) * Number(data.unitCost),
         },
-        child: [
-          {
-            ProductId: data.ProductId,
-            quantity: Number(data.quantity),
-            unitCost: Number(data.unitCost),
-            total: Number(data.quantity) * Number(data.unitCost),
-          },
-        ],
-      };
+      ],
+    };
 
-      const res = await createPurchase(purchaseData);
-      if (res.data.success) {
-        navigate("/purchase-list");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    const res = await createPurchase(purchaseData);
+    if (res.data.success) {
+      navigate("/purchase-list");
     }
   };
 

@@ -128,8 +128,10 @@ const PurchaseList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deletePurchase(id);
-        toast.success("Purchase Deleted Successfully");
+        const res = await deletePurchase(id);
+        if (res.data.success) {
+          toast.success("Purchase Deleted Successfully");
+        }
       },
     });
   };

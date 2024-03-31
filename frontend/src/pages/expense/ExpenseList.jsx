@@ -2,7 +2,10 @@ import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useDeleteExpenseMutation, useExpenseListQuery } from "../../redux/features/expense/expenseApi";
+import {
+  useDeleteExpenseMutation,
+  useExpenseListQuery,
+} from "../../redux/features/expense/expenseApi";
 import UpdateExpense from "./UpdateExpense";
 
 const ExpenseList = () => {
@@ -19,15 +22,17 @@ const ExpenseList = () => {
   });
 
   const metaData = expenses?.meta;
-  const tableData = expenses?.data?.map(({ _id, name, amount, note, ExpenseType, createdAt }, index) => ({
-    key: _id,
-    name,
-    expenseType: ExpenseType[0]?.name,
-    amount: `TK. ${amount}`,
-    note,
-    createdAt: moment(createdAt).format("LLL"),
-    serial: index + 1,
-  }));
+  const tableData = expenses?.data?.map(
+    ({ _id, name, amount, note, ExpenseType, createdAt }, index) => ({
+      key: _id,
+      name,
+      expenseType: ExpenseType[0]?.name,
+      amount: `TK. ${amount}`,
+      note,
+      createdAt: moment(createdAt).format("LLL"),
+      serial: index + 1,
+    })
+  );
 
   const columns = [
     {
@@ -84,8 +89,10 @@ const ExpenseList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteExpense(id);
-        toast.success("Expense Deleted Successfully");
+        const res = await deleteExpense(id);
+        if (res.data.success) {
+          toast.success("Expense Deleted Successfully");
+        }
       },
     });
   };

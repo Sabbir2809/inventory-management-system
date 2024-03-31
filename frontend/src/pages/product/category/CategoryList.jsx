@@ -2,7 +2,10 @@ import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useCategoryListQuery, useDeleteCategoryMutation } from "../../../redux/features/product/categoryApi";
+import {
+  useCategoryListQuery,
+  useDeleteCategoryMutation,
+} from "../../../redux/features/product/categoryApi";
 import UpdateCategory from "./UpdateCategory";
 
 const CategoryList = () => {
@@ -66,8 +69,10 @@ const CategoryList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteCategory(id);
-        toast.success("Category Deleted Successfully");
+        const res = await deleteCategory(id);
+        if (res.data.success) {
+          toast.success("Category Deleted Successfully");
+        }
       },
     });
   };

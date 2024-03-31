@@ -10,24 +10,19 @@ const CreateCustomer = () => {
   const [createCustomer] = useCreateCustomerMutation();
 
   const onsubmit = async (data) => {
-    try {
-      if (!data.name) {
-        return toast.error("Name is Required");
-      } else if (!data.email) {
-        return toast.error("Email is Required");
-      } else if (!data.mobile) {
-        return toast.error("Mobile is Required");
-      } else if (!data.address) {
-        return toast.error("Address is Required");
-      }
+    if (!data.name) {
+      return toast.error("Name is Required");
+    } else if (!data.email) {
+      return toast.error("Email is Required");
+    } else if (!data.mobile) {
+      return toast.error("Mobile is Required");
+    } else if (!data.address) {
+      return toast.error("Address is Required");
+    }
 
-      const res = await createCustomer(data);
-      if (res?.data?.success) {
-        navigate("/customers");
-      }
-      console.log(res);
-    } catch (error) {
-      toast.error(error?.data?.message);
+    const res = await createCustomer(data);
+    if (res?.data?.success) {
+      navigate("/customers");
     }
   };
   return (

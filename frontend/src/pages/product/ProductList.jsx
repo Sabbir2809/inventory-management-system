@@ -2,7 +2,10 @@ import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useDeleteProductMutation, useProductListQuery } from "../../redux/features/product/productApi";
+import {
+  useDeleteProductMutation,
+  useProductListQuery,
+} from "../../redux/features/product/productApi";
 import UpdateProduct from "./UpdateProduct";
 
 const ProductList = () => {
@@ -94,8 +97,10 @@ const ProductList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteProduct(id);
-        toast.success("Product Deleted Successfully");
+        const res = await deleteProduct(id);
+        if (res.data.success) {
+          toast.success("Product Deleted Successfully");
+        }
       },
     });
   };

@@ -10,17 +10,13 @@ const CreateExpenseType = () => {
   const [createExpenseType] = useCreateExpenseTypeMutation();
 
   const onsubmit = async (data) => {
-    try {
-      if (!data.name) {
-        return toast.error("Expense Type is Required");
-      }
+    if (!data.name) {
+      return toast.error("Expense Type is Required");
+    }
 
-      const res = await createExpenseType(data);
-      if (res.data.success) {
-        navigate("/expenses");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    const res = await createExpenseType(data);
+    if (res.data.success) {
+      navigate("/expenses");
     }
   };
   return (

@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import IForm from "../../components/form/IForm";
 import IInput from "../../components/form/IInput";
 import ISelect from "../../components/form/ISelect";
-import { useCreateExpenseMutation, useExpenseTypeListQuery } from "../../redux/features/expense/expenseApi";
+import {
+  useCreateExpenseMutation,
+  useExpenseTypeListQuery,
+} from "../../redux/features/expense/expenseApi";
 
 const CreateExpense = () => {
   const navigate = useNavigate();
@@ -18,21 +21,17 @@ const CreateExpense = () => {
   }));
 
   const onsubmit = async (data) => {
-    try {
-      if (!data.name) {
-        return toast.error("Name is Required");
-      } else if (!data.amount) {
-        return toast.error("Amount is Required");
-      } else if (!data.note) {
-        return toast.error("Note is Required");
-      }
+    if (!data.name) {
+      return toast.error("Name is Required");
+    } else if (!data.amount) {
+      return toast.error("Amount is Required");
+    } else if (!data.note) {
+      return toast.error("Note is Required");
+    }
 
-      const res = await createExpense(data);
-      if (res.data.success) {
-        navigate("/expenses");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    const res = await createExpense(data);
+    if (res.data.success) {
+      navigate("/expenses");
     }
   };
   return (

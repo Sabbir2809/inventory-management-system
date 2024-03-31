@@ -2,7 +2,10 @@ import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useBrandListQuery, useDeleteBrandMutation } from "../../../redux/features/product/brandApi";
+import {
+  useBrandListQuery,
+  useDeleteBrandMutation,
+} from "../../../redux/features/product/brandApi";
 import UpdateBrand from "./UpdateBrand";
 
 const BrandList = () => {
@@ -66,8 +69,10 @@ const BrandList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteBrand(id);
-        toast.success("Brand Deleted Successfully");
+        const res = await deleteBrand(id);
+        if (res.data.success) {
+          toast.success("Brand Deleted Successfully");
+        }
       },
     });
   };

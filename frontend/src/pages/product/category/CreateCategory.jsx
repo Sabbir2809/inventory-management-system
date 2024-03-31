@@ -10,17 +10,13 @@ const CreateCategory = () => {
   const [createCategory] = useCreateCategoryMutation();
 
   const onsubmit = async (data) => {
-    try {
-      if (!data.name) {
-        return toast.error("Category name is Required");
-      }
+    if (!data.name) {
+      return toast.error("Category name is Required");
+    }
 
-      const res = await createCategory(data);
-      if (res.data.success) {
-        navigate("/categories");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    const res = await createCategory(data);
+    if (res.data.success) {
+      navigate("/categories");
     }
   };
   return (

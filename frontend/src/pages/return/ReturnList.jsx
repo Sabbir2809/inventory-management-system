@@ -125,8 +125,10 @@ const ReturnList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteReturn(id);
-        toast.success("Return Deleted Successfully");
+        const res = await deleteReturn(id);
+        if (res.data.success) {
+          toast.success("Return Deleted Successfully");
+        }
       },
     });
   };

@@ -27,17 +27,13 @@ const CreateProduct = () => {
   const [createProduct] = useCreateProductMutation();
 
   const onsubmit = async (data) => {
-    try {
-      if (!data.CategoryId || !data.BrandId || !data.name || !data.unit || !data.details) {
-        return toast.error("All Field are Required!");
-      }
+    if (!data.CategoryId || !data.BrandId || !data.name || !data.unit || !data.details) {
+      return toast.error("All Field are Required!");
+    }
 
-      const res = await createProduct(data);
-      if (res.data.success) {
-        navigate("/products");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    const res = await createProduct(data);
+    if (res.data.success) {
+      navigate("/products");
     }
   };
   return (

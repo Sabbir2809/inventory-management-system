@@ -11,23 +11,19 @@ const CreateSupplier = () => {
   const [createSupplier] = useCreateSupplierMutation();
 
   const onsubmit = async (data) => {
-    try {
-      if (!data.name) {
-        return toast.error("Name is Required");
-      } else if (!data.email) {
-        return toast.error("Email is Required");
-      } else if (!data.mobile) {
-        return toast.error("Mobile is Required");
-      } else if (!data.address) {
-        return toast.error("Address is Required");
-      }
+    if (!data.name) {
+      return toast.error("Name is Required");
+    } else if (!data.email) {
+      return toast.error("Email is Required");
+    } else if (!data.mobile) {
+      return toast.error("Mobile is Required");
+    } else if (!data.address) {
+      return toast.error("Address is Required");
+    }
 
-      const res = await createSupplier(data);
-      if (res.data.success) {
-        navigate("/suppliers");
-      }
-    } catch (error) {
-      toast.error(error.data.message);
+    const res = await createSupplier(data);
+    if (res.data.success) {
+      navigate("/suppliers");
     }
   };
   return (

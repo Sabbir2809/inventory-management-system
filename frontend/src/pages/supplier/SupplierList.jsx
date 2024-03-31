@@ -2,7 +2,10 @@ import { Button, Input, Modal, Space, Table, Typography } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useDeleteSupplierMutation, useSupplierListQuery } from "../../redux/features/supplier/supplierApi";
+import {
+  useDeleteSupplierMutation,
+  useSupplierListQuery,
+} from "../../redux/features/supplier/supplierApi";
 import UpdateSupplier from "./UpdateSupplier";
 
 const SupplierList = () => {
@@ -19,15 +22,17 @@ const SupplierList = () => {
   });
 
   const metaData = suppliers?.meta;
-  const tableData = suppliers?.data?.map(({ _id, name, email, mobile, address, createdAt }, index) => ({
-    key: _id,
-    name,
-    email,
-    mobile,
-    address,
-    createdAt: moment(createdAt).format("LLL"),
-    serial: index + 1,
-  }));
+  const tableData = suppliers?.data?.map(
+    ({ _id, name, email, mobile, address, createdAt }, index) => ({
+      key: _id,
+      name,
+      email,
+      mobile,
+      address,
+      createdAt: moment(createdAt).format("LLL"),
+      serial: index + 1,
+    })
+  );
 
   const columns = [
     {
@@ -84,8 +89,10 @@ const SupplierList = () => {
       okText: "Yes",
       okType: "danger",
       onOk: async () => {
-        await deleteSupplier(id);
-        toast.success("Supplier Deleted Successfully");
+        const res = await deleteSupplier(id);
+        if (res.data.success) {
+          return toast.success("Supplier Deleted Successfully");
+        }
       },
     });
   };
