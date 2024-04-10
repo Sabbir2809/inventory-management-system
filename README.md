@@ -4,7 +4,9 @@
 
 Inventory management refers to the process of ordering, storing, using, and selling a company's inventory. This includes the management of raw materials, components, and finished products, as well as the warehousing and processing of such items.
 
-### API Live Link: https://inventory-management-system-ten.vercel.app
+### Frontend Live Link: https://inventory-m-s.netlify.app
+
+### Backend API Live Link: https://inventory-management-system-ten.vercel.app
 
 ### Postman Documentation: https://documenter.getpostman.com/view/15226030/2sA2rGvKJy
 
