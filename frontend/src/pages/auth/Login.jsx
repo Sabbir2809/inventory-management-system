@@ -32,10 +32,16 @@ const Login = () => {
     }
   };
 
+  // testing
+  const loginInfo = {
+    email: "inventory@gmail.com",
+    password: "inventory",
+  };
+
   return (
     <Row justify="center" align="middle" style={{ height: "90vh", padding: "20px" }}>
       <Col span={24} md={12} lg={8}>
-        <IForm onSubmit={onsubmit}>
+        <IForm onSubmit={onsubmit} defaultValues={loginInfo}>
           <IInput type="text" name="email" label="Email" required={true} />
           <IInput type="password" name="password" label="Password" required={true} />
           <Button htmlType="submit" type="primary" size="large" style={{ width: "100%" }}>
